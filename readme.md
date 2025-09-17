@@ -335,6 +335,7 @@
   <strong>2.2 Cài đặt thư viện cho Arduino:</strong><br>
 
   &nbsp;&nbsp;&bull; Mở Arduino IDE → Library Manager (Ctrl + Shift + I), tìm và cài: 
+  
   <code>Servo.h</code> (Điều khiển servo)
   
   <code>SoftwareSerial.h</code> (Giao tiếp nối tiếp giả lập để kết nối Arduino với ESP32 qua các chân digital (10 và 11).)
@@ -353,7 +354,7 @@
 
 <p align="justify">
   <strong>1️⃣ Khởi động hệ thống:</strong><br>
-  - Bật nguồn cho Arduino, ESP32-CAM và máy tính.<br>
+  - Bật nguồn cho Arduino, ESP32 và máy tính.<br>
   - Mở Serial Monitor (9600 baud) trên Arduino IDE để theo dõi hoạt động.<br>
   - Mở Serial Monitor (115200 baud) trên ESP32 để theo dõi hoạt động.<br>
   - Chạy Web Server trên PC bằng lệnh: <code>node server.js</code><br><br>
@@ -434,8 +435,8 @@
 <br>
 <hr>
 
-<h2 align="center">🤝 Đóng góp</h2>
-<p>Dự án được phát triển bởi 4 thành viên:</p>
+<h2 align="center">🤝</h2>
+<p>Dự án được phát triển bởi:</p>
 
 <center>
 <table>
@@ -453,6 +454,10 @@
   </tbody>
 </table>
 </center>
+
+
+
+
 
 
 <p align="center">© 2025 NGÔ TUẤN MINH, CNTT16-06, TRƯỜNG ĐẠI HỌC ĐẠI NAM</p>
