@@ -527,12 +527,14 @@
   <thead>
     <tr>
       <th>Họ và Tên</th>
+      <th>Mã sinh viên</th>
       <th>Vai trò</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>Ngô Tuấn Minh</td>
+      <th>1571020175</th>
       <td>Phát triển dự án</td>
     </tr>
   </tbody>

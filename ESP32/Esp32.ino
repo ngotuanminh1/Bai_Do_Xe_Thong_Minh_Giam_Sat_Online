@@ -2,13 +2,13 @@
 #include <HTTPClient.h>
 
 // WiFi info
-const char* ssid = "BUI BA HAI";
-const char* password = "12345678";
+const char* ssid = "Tên Wfi";
+const char* password = "Pass;
 
 // Server URLs
-const char* serverUrl = "http://192.168.1.147:3000/fromarduino";
-const char* getCommandUrl = "http://192.168.1.147:3000/command";  
-const char* resetCommandUrl = "http://192.168.1.147:3000/commands/reset";
+const char* serverUrl = "http://<ip cua ban>:3000/fromarduino";
+const char* getCommandUrl = "http://<ip cua ban>:3000/command";  
+const char* resetCommandUrl = "http://<ip cua ban>:3000/commands/reset";
 
 // UART pins for communication with Arduino
 #define RXD2 16
