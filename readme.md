@@ -398,14 +398,57 @@
 
 <h2 align="center">Giải thích code</h2>
 <p align="justify">
-  <strong>Arduino Code (arduino_code.ino):</strong><br>
-  - <em>Khởi tạo:</em> Khởi tạo Serial ở tốc độ 115200, cấu hình chân cho cảm biến, relay và servo. Servo được gắn tại chân 9 và khởi tạo về góc 0°.<br>
-  - <em>Vòng lặp chính:</em> Đọc trạng thái của cảm biến. Khi cảm biến thay đổi trạng thái hoặc sau khoảng thời gian định kỳ, gửi lệnh "CHECK" và chờ phản hồi từ Python.<br>
-  - <em>Xử lý kết quả:</em><br>
-  &nbsp;&nbsp;&rarr; Nếu nhận "ô tô": Kích hoạt relay chạy trong 4 giây.<br>
-  &nbsp;&nbsp;&rarr; Nếu nhận "đồ chơi": Kích hoạt relay chạy 1.9 giây, quay servo 90° trong 2 giây, sau đó quay lại 0°.<br>
-  &nbsp;&nbsp;&rarr; Nếu không nhận phản hồi: In thông báo timeout.<br>
-  &nbsp;&nbsp;&rarr; Nếu nhận vật thể không phải hoa quả cần nhận diện "unknown": Không kích hoạt phần cứng và in thông báo "No relevant object detected; skipping processing.".<br><br>
+  <strong>Arduino Code (arduino.ino):</strong><br>
+  - <em>Khởi tạo:</em> Khởi tạo Serial ở tốc độ 9600, cSử dụng các thư viện: Servo.h, SoftwareSerial.h, Wire.h, LiquidCrystal_I2C.h. Cấu hình các chân kết nối: Cảm biến xe (cam1, cam2): D2, D3. Cảm biến vị trí đỗ (park1, park2): D5, D6. Cảm biến gas: A0. Còi cảnh báo: D8. LED báo trạng thái: D7 (Đỏ), D12 (Xanh). Servo điều khiển barie: D9. Giao tiếp với ESP32 qua UART mềm (SoftwareSerial(10, 11)). Hiển thị thông tin qua màn hình LCD I2C (LiquidCrystal_I2C)<br>
+
+  - <em>Vòng lặp chính:</em> -📡 Nhận dữ liệu cảm biến. Đọc giá trị khí gas từ analog A0. Đọc trạng thái cảm biến cam1, cam2 để xác định xe đến/đi. Đọc trạng thái cảm biến đỗ xe park1, park2<br>
+  - <em>3. Xử lý dữ liệu & hành động</em><br>
+  &nbsp;&nbsp;&rarr; ☢️ Phát hiện khí gas: Nếu nồng độ gas vượt ngưỡng → mở barie, bật còi, gửi "GAS_ALERT" đến ESP32. Nếu gas giảm → đóng barie, tắt còi <br>
+  &nbsp;&nbsp;&rarr; 🔐 Nhận lệnh từ ESP32: Nếu ESP32 gửi "open" → mở barie, cho xe vào. Nếu gửi "beep" → bật còi cảnh báo đỗ sai. Nếu gửi "stopbeep" → tắt còi <br>
+  &nbsp;&nbsp;&rarr; 🚗 Xử lý xe vào (cam2). Khi xe đi qua cảm biến cam2 sau khi barie mở: Đóng barie. Tăng biến đếm soXe, gửi SOXE:x về ESP32<br>
+  &nbsp;&nbsp;&rarr; 🅿️ Xử lý xe ra (cam2 → cam1). Khi có xe đi ra (cam2 LOW, rồi qua cam1): Mở barie. Giảm soXe, gửi SOXE:x về ESP32. Đóng barie sau khi xe đi qua<br><br>
+  &nbsp;&nbsp;&rarr; 🚨 Kiểm tra đỗ sai: Nếu có xe ở park2 nhưng soXe < 2 → đỗ sai → bật còi cảnh báo. Nếu xe đỗ đúng hoặc đi khỏi → tắt còi<br><br>
+  &nbsp;&nbsp;&rarr; 📤 Gửi trạng thái định kỳ: Gửi trạng thái chỗ đỗ xe (PARKING:x,y) mỗi 5 giây về ESP32<br><br>
+
+  <strong>ESP32 (esp32.ino):</strong><br>
+  - <em>Khởi tạo:</em> Khởi tạo Serial ở tốc độ 115200, Kết nối WiFi (ssid = "....."). Cấu hình UART giao tiếp với Arduino (RX: D16, TX: D17). Thiết lập server:<br>
+  
+  POST /fromarduino → gửi dữ liệu. <br>
+  
+  GET /command → lấy lệnh từ server. <br>
+  
+  POST /commands/reset → reset lệnh<br>
+
+  - <em>Vòng lặp chính:</em> -🔁 Nhận dữ liệu từ Arduino: Dữ liệu nhận dạng: <br>
+
+  "GAS_ALERT" → gửi báo động gas lên server<br>
+
+  "SOXE:x" hoặc "Tong xe: x" → cập nhật số xe<br>
+
+  "PARKING:x,y" → cập nhật trạng thái các slot<br>
+
+  - <em>3. Gửi dữ liệu lên server</em><br>
+  &nbsp;&nbsp;&rarr; Gửi định dạng JSON: <br>
+
+  {<br>
+  "event": "update",<br>
+  "total": x,<br>
+  "slots": [2, 0]<br>
+  }<br>
+
+  &nbsp;&nbsp;&rarr; ☢️ Nếu phát hiện "GAS_ALERT":<br>
+  Gửi báo động lên server:<br>
+
+  {<br>
+  "event": "gas_alert",<br>
+  "total": x,<br>
+  "slots": [2, 0],<br>
+  "gas": 300<br>
+  }<br>
+
+  &nbsp;&nbsp;&rarr; 4. Xử lý điều kiện còi cảnh báo. Nếu slot2 = 2 và slot1 ≠ 2 → đỗ sai → gửi "beep" cho Arduino (1 lần duy nhất). Nếu điều kiện không còn → tắt chế độ cảnh báo (beepSent = false)<br>
+
+  &nbsp;&nbsp;&rarr; 5. Kiểm tra lệnh từ server: Gửi GET /command mỗi 3 giây. Nếu có "open": Gửi "open" về Arduino Gửi POST rỗng để reset lệnh trên server<br>
   <strong>Flask &amp; YOLO Code (web.py):</strong><br>
   - <em>Khởi tạo:</em> Flask server khởi chạy tại <code>http://0.0.0.0:5000/</code> và tải mô hình YOLO từ file <code>best.pt</code>.<br>
   - <em>Xử lý ảnh:</em> Lấy ảnh từ ESP32-CAM qua URL, chạy YOLO để nhận diện đối tượng (quả cam tươi/hỏng), cập nhật ảnh annotate và kết quả phân loại.<br>
