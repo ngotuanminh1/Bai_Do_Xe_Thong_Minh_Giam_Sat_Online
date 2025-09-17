@@ -2,7 +2,7 @@
 🚗 Dự Án Nhận Diện Bãi Đỗ Xe Thông Minh Có Hệ Thống Giám Sát Online
 </h1>
 <div align="center">
-  <img src="REAME/logoDaiNam.png" alt="DaiNam University Logo" width="250">
+  <img src="README/logoDaiNam.png" alt="DaiNam University Logo" width="250">
 </div>
 <br>
 <div align="center">
@@ -82,6 +82,10 @@
   - firebase-admin<br>
   - uuid<br><br>
 
+  <strong>Cài các module cần thiết:</strong><br>
+ 
+  <code>npm install</code><br><br>
+  
   <strong>Lệnh cài thư viện:</strong><br>
   - (Tùy chọn) Tạo môi trường ảo (nên dùng <code>nvm</code> hoặc <code>npm init</code>):<br>
   <code>npm init -y</code><br><br>
@@ -309,3 +313,140 @@
   </tr>
 </table>
 </div>
+
+<hr>
+
+<h2 align="center">🚀 Hướng dẫn cài đặt và chạy</h2>
+<p align="justify">
+  <strong>1. Chuẩn bị phần cứng:</strong><br>
+  - Nạp mã Arduino:<br>
+  &nbsp;&nbsp;&bull; Mở file <code>Arduino</code> bằng Arduino IDE.<br>
+  &nbsp;&nbsp;&bull; Kết nối board Arduino với máy tính.<br>
+  &nbsp;&nbsp;&bull; Nạp (upload) mã nguồn lên board.<br>
+  &nbsp;&nbsp;&bull; Đảm bảo Arduino xuất hiện trên cổng COM.<br>
+  - Nạp mã cho ESP32 với file <code>Esp32</code>.<br><br>
+  <strong>2. CÀI ĐẶT PHẦN MỀM:</strong><br>
+  <strong>2.1 Cài đặt Arduino IDE:</strong><br>
+  &nbsp;&nbsp;&bull; Tải Arduino IDE tại: <a href="https://www.arduino.cc/en/software" target="_blank">Arduino Software</a>.<br>
+  &nbsp;&nbsp;&bull; Cài đặt Driver CH340 nếu dùng board Arduino clone.<br><br>
+  &nbsp;&nbsp;&bull; Cài đặt Driver CP210xVCP cho ESP32<br><br>
+  <strong>2.2 Cài đặt thư viện cho Arduino:</strong><br>
+  &nbsp;&nbsp;&bull; Mở Arduino IDE → Library Manager (Ctrl + Shift + I), tìm và cài: <code>Servo.h</code> (Điều khiển servo)
+  <code>SoftwareSerial.h</code> (Giao tiếp nối tiếp giả lập để kết nối Arduino với ESP32 qua các chân digital (10 và 11).)
+  <code>Wire.h</code> (Giao tiếp I2C dùng cho màn hình LCD I2C.)
+  <code>LiquidCrystal_I2C.h</code> (Điều khiển màn hình LCD I2C (20x4).)
+</p>
+
+<hr>
+
+<h2 align="center">Hoạt động của hệ thống</h2>
+<div align="center">
+  <img src="README/Sodo.jpg" alt="Kiến trúc hệ thống" width="100%">
+</div>
+
+<p align="justify">
+  <strong>1️⃣ Khởi động hệ thống:</strong><br>
+  - Bật nguồn cho Arduino, ESP32-CAM và máy tính.<br>
+  - Mở Serial Monitor (9600 baud) trên Arduino IDE để theo dõi hoạt động.<br>
+  - Mở Serial Monitor (115200 baud) trên ESP32 để theo dõi hoạt động.<br>
+  - Chạy Web Server trên PC bằng lệnh: <code>node server.js</code><br><br>
+  <strong>Quy trình hoạt động:</strong><br>
+  - 1. Khởi động hệ thống<br>
+    - Màn hình LCD hiển thị thông báo "Khởi động hệ thống".<br>
+    - Barie ở trạng thái đóng (servo ở góc 0 độ).<br>
+    - Các cảm biến và LED được thiết lập trạng thái ban đầu.<br>
+  - 2. Phát hiện khí gas nguy hiểm<br>
+    - Cảm biến khí gas (chân A0) liên tục đo giá trị khí trong không khí"<br>
+    - Nếu giá trị vượt ngưỡng cao (gasThresholdHigh), hệ thống cảnh báo nguy hiểm:<br>
+    - Mở barie (servo xoay góc 90 độ).<br>
+    - Bật còi báo động.<br>
+    - Gửi tín hiệu cảnh báo GAS_ALERT đến ESP32.<br>
+    - LCD hiển thị trạng thái khí gas "Nguy hiểm" và barie "Mở (Gas)" và gửi thông báo về Telegram.<br>
+    - Khi giá trị khí gas giảm dưới ngưỡng thấp (gasThresholdLow), hệ thống tắt cảnh báo, đóng barie, tắt còi, và LCD hiển thị trạng thái an toàn.<br>
+    - 3. Phát hiện xe đến (Cảm biến Cam1)<br>
+    - Khi cảm biến Cam1 (chân 2) phát hiện xe (tín hiệu LOW), nếu bãi chưa đầy:"<br>
+    - Gửi tín hiệu "XE_DEN" cho ESP32 để yêu cầu quét QR.<br>
+    - Barie giữ trạng thái đóng, LCD hiển thị "Đợi QR".<br>
+    - Nếu bãi đã đầy theo dữ liệu đặt trước từ ESP32, còi sẽ báo hiệu từ chối xe.<br>
+    - 4. Mở barie cho xe hợp lệ<br>
+    - Khi nhận được lệnh open từ ESP32 (sau khi xác nhận QR hợp lệ), barie sẽ mở."<br>
+    - Xe đi vào qua cảm biến Cam2 (chân 3).<br>
+    - Khi xe qua Cam2 hoàn toàn, barie tự động đóng lại.<br>
+    - Số xe trong bãi tăng lên 1, trạng thái được gửi về ESP32 và hiển thị trên LCD.<br>
+    - 5. Xe ra khỏi bãi<br>
+    - Khi phát hiện xe đi ra tại cảm biến Cam2 (và số xe > 0), barie sẽ mở."<br>
+    - Xe đi qua cảm biến Cam1 ra khỏi bãi, barie đóng lại.<br>
+    - Số xe trong bãi giảm 1, trạng thái gửi về ESP32 và cập nhật trên LCD.<br>
+    - 6. Kiểm tra vị trí đỗ xe và còi cảnh báo<br>
+    - Hai cảm biến đỗ xe (park1 và park2) theo dõi vị trí xe đỗ.<br>
+    - Nếu xe đỗ sai vị trí (ví dụ park2 có xe nhưng số xe trong bãi chưa đủ 2), còi báo động sẽ được kích hoạt để cảnh báo.<br>
+    - 7. Gửi trạng thái đỗ xe định kỳ<br>
+    - Mỗi 5 giây, hệ thống gửi trạng thái chỗ đỗ xe (cảm biến park1, park2) về ESP32 để theo dõi và hiển thị.<br>
+  - Arduino nhận kết quả và điều khiển động cơ, servo.
+</p>
+
+<hr>
+
+<h2 align="center">Giải thích code</h2>
+<p align="justify">
+  <strong>Arduino Code (arduino_code.ino):</strong><br>
+  - <em>Khởi tạo:</em> Khởi tạo Serial ở tốc độ 115200, cấu hình chân cho cảm biến, relay và servo. Servo được gắn tại chân 9 và khởi tạo về góc 0°.<br>
+  - <em>Vòng lặp chính:</em> Đọc trạng thái của cảm biến. Khi cảm biến thay đổi trạng thái hoặc sau khoảng thời gian định kỳ, gửi lệnh "CHECK" và chờ phản hồi từ Python.<br>
+  - <em>Xử lý kết quả:</em><br>
+  &nbsp;&nbsp;&rarr; Nếu nhận "ô tô": Kích hoạt relay chạy trong 4 giây.<br>
+  &nbsp;&nbsp;&rarr; Nếu nhận "đồ chơi": Kích hoạt relay chạy 1.9 giây, quay servo 90° trong 2 giây, sau đó quay lại 0°.<br>
+  &nbsp;&nbsp;&rarr; Nếu không nhận phản hồi: In thông báo timeout.<br>
+  &nbsp;&nbsp;&rarr; Nếu nhận vật thể không phải hoa quả cần nhận diện "unknown": Không kích hoạt phần cứng và in thông báo "No relevant object detected; skipping processing.".<br><br>
+  <strong>Flask &amp; YOLO Code (web.py):</strong><br>
+  - <em>Khởi tạo:</em> Flask server khởi chạy tại <code>http://0.0.0.0:5000/</code> và tải mô hình YOLO từ file <code>best.pt</code>.<br>
+  - <em>Xử lý ảnh:</em> Lấy ảnh từ ESP32-CAM qua URL, chạy YOLO để nhận diện đối tượng (quả cam tươi/hỏng), cập nhật ảnh annotate và kết quả phân loại.<br>
+  - <em>Giao tiếp với Arduino:</em> Khi nhận lệnh "CHECK" qua Serial, Flask sẽ chụp ảnh mới, xử lý và gửi kết quả ("ô tô", "đồ chơi" hoặc "unknown") về Arduino.<br>
+  - <em>Giao diện web:</em> Hiển thị video feed từ camera, thông tin FPS, trạng thái camera và cảnh báo.
+</p>
+
+<hr>
+
+<h2 align="center">📸 Kết quả hiển thị</h2>
+<div align="center">
+  <p><strong>Ảnh car khi cam nhận diện:</strong></p>
+  <img src="REAME/Car.jpg" alt="Ảnh ô tô" width="100%">
+  
+  <p><strong>Ảnh toys khi cam nhận diện:</strong></p>
+  <img src="REAME/teddy bear.jpg" alt="Ảnh đồ chơi" width="100%">
+</div>
+
+<br>
+<hr>
+
+<h2 align="center">🌟 Poster ✨</h2>
+<p align="center"><strong>Poster nhóm</strong></p>
+<div align="center">
+  <img src="./REAME/poster.jpg" alt="Poster nhóm" width="100%">
+</div>
+
+<br>
+<hr>
+
+<h2 align="center">🤝 Đóng góp</h2>
+<p>Dự án được phát triển bởi 4 thành viên:</p>
+
+<center>
+<table>
+  <thead>
+    <tr>
+      <th>Họ và Tên</th>
+      <th>Vai trò</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Ngô Tuấn MinhMinh</td>
+      <td>Phát triển dự án</td>
+    </tr>
+  </tbody>
+</table>
+</center>
+
+
+<p align="center">© 2025 NGÔ TUẤN MINH, CNTT16-06, TRƯỜNG ĐẠI HỌC ĐẠI NAM</p>
+
