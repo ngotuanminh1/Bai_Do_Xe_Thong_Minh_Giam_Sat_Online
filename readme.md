@@ -480,11 +480,27 @@
 
 <h2 align="center">📸 Kết quả hiển thị</h2>
 <div align="center">
-  <p><strong>Ảnh car khi cam nhận diện:</strong></p>
-  <img src="REAME/Car.jpg" alt="Ảnh ô tô" width="100%">
+  <p><strong>Tổng quan Mô hình</strong></p>
+  <img src="README/image1.png" alt="Ảnh mô hình" width="100%">
   
-  <p><strong>Ảnh toys khi cam nhận diện:</strong></p>
-  <img src="REAME/teddy bear.jpg" alt="Ảnh đồ chơi" width="100%">
+  <p><strong>Đặt chỗ</strong></p>
+  <img src="README/image3.png" alt="Đặt chỗ thành công in QR" width="100%">
+</div>
+
+  <p><strong>Xe Vào</strong></p>
+  <img src="README/image2.png" alt="Khi có xe vào" width="100%">
+</div>
+
+<p><strong>Quét QR thành công Server trả về Open cho Esp32</strong></p>
+  <img src="README/image4.png" alt="Quét QR thành công Admin" width="100%">
+</div>
+
+<p><strong>Xe đỗ vị trí 1 nhận diện gửi lên Server đổi màu ô đỗ</strong></p>
+  <img src="README/image5.png" alt="Xe đỗ vị trí 1" width="100%">
+</div>
+
+<p><strong>Cảnh báo khí GAS</strong></p>
+  <img src="README/image6.png" alt="Quét QR thành công Admin" width="100%">
 </div>
 
 <br>
