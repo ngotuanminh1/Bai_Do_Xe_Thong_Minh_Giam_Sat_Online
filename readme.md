@@ -349,7 +349,7 @@
 
 <h2 align="center">Hoạt động của hệ thống</h2>
 <div align="center">
-  <img src="README/Sodo.jpg" alt="Kiến trúc hệ thống" width="100%">
+  <img src="README/sodo.jpg" alt="Kiến trúc hệ thống" width="100%">
 </div>
 
 <p align="justify">
