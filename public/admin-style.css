@@ -1,0 +1,343 @@
+/* Reset cơ bản */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background: #f5f8fa;
+  color: #2c3e50;
+  padding: 20px;
+  min-height: 100vh;
+  line-height: 1.5;
+}
+
+/* Container */
+.container {
+  max-width: 960px;
+  margin: 0 auto 40px auto;
+  padding: 0 15px; /* padding trong container cho responsive */
+}
+
+/* Header */
+header h1 {
+  font-weight: 700;
+  font-size: 1.8rem;
+  margin-bottom: 25px;
+  color: #1a2a4a;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Grid 4 card KPI */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+/* Card chung */
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 25px 20px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  user-select: none;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+}
+
+/* Tiêu đề trong card */
+.card h3 {
+  font-weight: 600;
+  font-size: 1.25rem;
+  margin-bottom: 10px;
+  color: #34495e;
+}
+
+/* Giá trị chính trong card */
+.card p {
+  font-size: 2.6rem;
+  font-weight: 800;
+  color: #2980b9;
+}
+
+/* Card cảnh báo */
+.card.alert {
+  background-color: #fdecea;
+  color: #b00020;
+  box-shadow: 0 6px 15px rgba(176, 0, 32, 0.2);
+}
+
+.card.alert p {
+  font-size: 1.8rem;
+}
+
+/* Trạng thái bãi đỗ */
+.parking-map {
+  margin-top: 10px;
+}
+
+.parking-map .top-row {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.parking-map .bottom-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.road-left, .road-right {
+  flex: 1;
+  height: 20px;
+  background: linear-gradient(90deg, #bdc3c7, #2c3e50);
+  border-radius: 8px;
+}
+
+/* Slot xe */
+.slot {
+  width: 70px;
+  height: 70px;
+  background-color: #2ecc71;
+  border-radius: 15px;
+  color: white;
+  font-weight: 700;
+  font-size: 2.2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 6px 15px rgba(46, 204, 113, 0.4);
+  user-select: none;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  cursor: default;
+}
+
+.slot.free {
+  background-color: #2ecc71;
+  box-shadow: 0 6px 15px rgba(46, 204, 113, 0.4);
+}
+
+.slot.reserved {
+  background-color: #f39c12;
+  box-shadow: 0 6px 15px rgba(243, 156, 18, 0.4);
+}
+
+.slot.occupied {
+  background-color: #e74c3c;
+  box-shadow: 0 6px 15px rgba(231, 76, 60, 0.4);
+}
+
+/* Tiêu đề chính (Danh sách, log) */
+h2 {
+  font-weight: 700;
+  color: #34495e;
+  margin-bottom: 15px;
+  font-size: 1.6rem;
+}
+
+/* Filter nhà cung cấp */
+label {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+  font-weight: 600;
+  color: #2c3e50;
+  font-size: 1rem;
+}
+
+select#filterProvider {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1.5px solid #2980b9;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+select#filterProvider:hover,
+select#filterProvider:focus {
+  border-color: #1a5d9e;
+  outline: none;
+}
+
+/* Table */
+table {
+  width: 100%;               /* rộng full trong container */
+  max-width: 100%;           /* không giới hạn chiều ngang */
+  border-collapse: separate; /* để bo góc */
+  border-spacing: 0;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+  margin: 0 auto 30px auto;  /* căn giữa bảng và margin dưới */
+  table-layout: auto;        /* hoặc fixed tùy nhu cầu */
+  font-size: 1rem;
+}
+
+/* Header bảng */
+thead {
+  background-color: #2980b9;
+  color: white;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+thead th {
+  padding: 14px 15px;
+  text-align: center;
+  border-right: 1px solid rgba(255,255,255,0.3);
+  user-select: none;
+  cursor: default;
+}
+
+thead th:last-child {
+  border-right: none;
+}
+
+/* Dòng dữ liệu */
+tbody tr {
+  border-bottom: 1px solid #ddd;
+  transition: background-color 0.2s ease;
+  cursor: default;
+}
+
+tbody tr:hover {
+  background-color: #ecf0f1;
+}
+
+tbody td {
+  padding: 12px 15px;
+  text-align: center;
+  font-weight: 600;
+  color: #34495e;
+  border-right: 1px solid #eee;
+}
+
+tbody td:last-child {
+  border-right: none;
+}
+
+/* Button xóa */
+button.delete {
+  background-color: #e74c3c;
+  border: none;
+  color: white;
+  padding: 7px 14px;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button.delete:hover {
+  background-color: #c0392b;
+}
+
+/* Button quét QR */
+button[onclick="toggleScanner()"] {
+  background-color: #2980b9;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  font-weight: 700;
+  box-shadow: 0 6px 15px rgba(41, 128, 185, 0.4);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  margin-bottom: 10px;
+}
+
+button[onclick="toggleScanner()"]:hover {
+  background-color: #1a5d9e;
+  box-shadow: 0 8px 20px rgba(26, 93, 158, 0.6);
+}
+
+/* Nút tắt camera */
+#stop-scanner-btn {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 6px 15px rgba(231, 76, 60, 0.4);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#stop-scanner-btn:hover {
+  background-color: #c0392b;
+  box-shadow: 0 8px 20px rgba(192, 57, 43, 0.6);
+}
+
+/* Kết quả scanner */
+#scannerResult {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-top: 10px;
+  color: #34495e;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .grid {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  }
+
+  .slot {
+    width: 55px;
+    height: 55px;
+    font-size: 1.6rem;
+  }
+
+  button[onclick="toggleScanner()"],
+  #stop-scanner-btn {
+    padding: 10px 18px;
+    font-size: 1rem;
+  }
+
+  thead th, tbody td {
+    padding: 10px 8px;
+  }
+}
+button.refresh {
+  position: fixed;
+  top: 20px;      /* cách mép trên 20px */
+  right: 20px;    /* cách mép phải 20px */
+  background-color: #0a74da;
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 4px 8px rgba(10, 116, 218, 0.3);
+  z-index: 1000;  /* ưu tiên hiển thị trên cùng */
+}
+
+button.refresh:hover {
+  background-color: #065bb5;
+  box-shadow: 0 6px 12px rgba(6, 91, 181, 0.5);
+}

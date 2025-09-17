@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Admin - Quản lý Bãi Đỗ Xe</title>
+  <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+  <link rel="stylesheet" href="admin-style.css" />
+
+  <style>
+    /* --- Container căn giữa --- */
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 20px;
+      font-family: Arial, sans-serif;
+    }
+
+    /* --- Bảng full-width --- */
+    .full-width-table {
+      width: 100%;
+      max-width: none;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .full-width-table th,
+    .full-width-table td {
+      padding: 10px 15px;
+      border: 1px solid #ddd;
+      text-align: left;
+    }
+
+    .full-width-table thead {
+      background-color: #0a74da;
+      color: white;
+    }
+
+    /* --- Nút Xóa --- */
+    button.delete {
+      background-color: #dc3545;
+      border: none;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button.delete:hover {
+      background-color: #c82333;
+    }
+
+    /* --- KPI cards --- */
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 15px 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+
+    .kpi {
+      display: inline-block;
+      width: calc(25% - 10px);
+      margin-right: 10px;
+      text-align: center;
+      vertical-align: top;
+    }
+
+    .kpi h3 {
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+
+    .kpi p {
+      font-size: 1.8em;
+      font-weight: bold;
+      margin: 0;
+      color: #0a74da;
+    }
+
+    .kpi:last-child {
+      margin-right: 0;
+    }
+
+    /* --- Grid container for KPI --- */
+    .grid {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    /* --- Parking map --- */
+    .parking-map {
+      margin-top: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .slot {
+      width: 60px;
+      height: 60px;
+      border-radius: 10px;
+      line-height: 60px;
+      font-weight: bold;
+      font-size: 1.2em;
+      color: white;
+      user-select: none;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      transition: background-color 0.3s ease;
+      text-align: center;
+      cursor: default;
+    }
+
+    .slot.free {
+      background-color: #28a745;
+      /* xanh lá */
+    }
+
+    .slot.reserved {
+      background-color: #ffc107;
+      /* vàng */
+      color: #333;
+    }
+
+    /* --- Nút Xác nhận thanh toán --- */
+    button.confirm-payment {
+      background-color: #0a74da;
+      border: none;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button.confirm-payment:hover {
+      background-color: #0056b3;
+    }
+
+    /* --- Nút Đã thanh toán (disabled) --- */
+    button.confirm-payment:disabled {
+      background-color: #6c757d;
+      cursor: not-allowed;
+    }
+
+
+    .slot.occupied {
+      background-color: #dc3545;
+      /* đỏ */
+    }
+
+    /* --- Road visual --- */
+    .bottom-row {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .road-left,
+    .road-right {
+      width: 80px;
+      height: 20px;
+      background: #6c757d;
+      border-radius: 5px;
+    }
+
+    /* --- Alert card --- */
+    .alert {
+      background-color: #f8d7da;
+      border: 1px solid #f5c2c7;
+      color: #842029;
+      padding: 15px 20px;
+      border-radius: 12px;
+    }
+
+    /* --- Loading spinner --- */
+    .loading-spinner {
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #0a74da;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      animation: spin 1s linear infinite;
+      display: inline-block;
+      vertical-align: middle;
+      margin-left: 10px;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* --- Responsive --- */
+    @media (max-width: 768px) {
+      .kpi {
+        width: 48%;
+        margin-bottom: 15px;
+      }
+
+      .grid {
+        flex-wrap: wrap;
+      }
+
+      .parking-map {
+        gap: 8px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container" role="main">
+    <header>
+      <h1>📊 Admin Dashboard – Bãi Đỗ Xe</h1>
+      <h2>
+        <button class="refresh" onclick="refreshAll()" aria-label="Làm mới trang" style="margin-left: 10px;">
+          🔄 Làm mới trang
+          <span id="refreshSpinner" style="display:none;" class="loading-spinner" aria-hidden="true"></span>
+        </button>
+      </h2>
+    </header>
+
+    <div class="grid" role="region" aria-label="Thông tin tổng quan bãi đỗ xe">
+      <div class="card kpi" aria-live="polite">
+        <h3>Tổng chỗ</h3>
+        <p id="tongCho">-</p>
+      </div>
+      <div class="card kpi" aria-live="polite">
+        <h3>Đã đỗ</h3>
+        <p id="daDo">-</p>
+      </div>
+      <div class="card kpi" aria-live="polite">
+        <h3>Còn trống</h3>
+        <p id="conTrong">-</p>
+      </div>
+      <div class="card kpi" aria-live="polite">
+        <h3>Xe vào</h3>
+        <p id="xeVao">-</p>
+      </div>
+    </div>
+
+    <div class="card alert" aria-live="assertive" aria-atomic="true" id="gas-alert-card" role="alert">
+      <h3>Cảnh báo khí gas</h3>
+      <p id="card-gas-alert">Không</p>
+      <button id="dismiss-gas-alert-btn" style="display:none; margin-top:10px;" onclick="dismissGasAlert()">🚫 Tắt cảnh
+        báo</button>
+    </div>
+
+
+    <div class="card" aria-label="Trạng thái bãi đỗ xe">
+      <h3>🚦 Trạng thái bãi đỗ</h3>
+      <div class="parking-map" role="list" id="parking-map-container" aria-live="polite"
+        aria-relevant="additions removals">
+        <!-- Các slot sẽ được render tự động -->
+      </div>
+    </div>
+  </div>
+
+  <section style="padding: 0 20px;">
+    <h2>📋 Danh sách đặt chỗ</h2>
+    <label for="filterProvider">Lọc theo vị trí đặt chỗ:
+      <select id="filterProvider" aria-label="Lọc danh sách đặt chỗ theo vị trí">
+        <option value="">Tất cả</option>
+      </select>
+    </label>
+
+    <table id="reservationsTable" class="full-width-table" aria-label="Danh sách đặt chỗ" cellpadding="5"
+      cellspacing="0">
+      <thead>
+        <tr>
+          <th>Tên</th>
+          <th>Biển số</th>
+          <th>Vị trí đặt chỗ</th>
+          <th>Check-in</th>
+          <th>Thời gian</th>
+          <th>Hành động</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td colspan="6" style="text-align:center;">Đang tải dữ liệu...</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <div style="padding: 0 20px; margin-bottom: 30px;">
+    <!-- Nút quét QR -->
+    <button onclick="toggleScanner()" aria-label="Mở máy quét QR để check-in" id="toggle-scanner-btn">📷 Quét QR
+      Check-in</button>
+    <button id="stop-scanner-btn" style="display:none; margin-left: 10px;" onclick="stopScanner()"
+      aria-label="Tắt camera quét QR">✖️ Tắt Camera</button>
+    <div id="qr-reader" style="width: 300px; margin-top: 10px; display: none;"></div>
+
+    <div id="scannerResult" aria-live="polite" style="margin-top: 10px; font-weight: bold;"></div>
+  </div>
+
+  <section style="padding: 0 20px;">
+    <h2>📈 Log cảm biến (Gas)</h2>
+    <table id="logsTable" class="full-width-table" aria-label="Log cảm biến khí gas" cellpadding="5" cellspacing="0">
+      <thead>
+        <tr>
+          <th>Thời gian</th>
+          <th>Gas (ppm)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td colspan="2" style="text-align:center;">Đang tải dữ liệu...</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <script>
+    let html5QrcodeScanner = null;
+
+    // Hiển thị spinner loading cho refresh toàn trang
+    function setLoading(isLoading) {
+      const spinner = document.getElementById('refreshSpinner');
+      spinner.style.display = isLoading ? 'inline-block' : 'none';
+    }
+
+    // Tạo slot bãi đỗ xe
+    function createSlotElement(index, state) {
+      const slot = document.createElement('div');
+      slot.classList.add('slot');
+      if (state === 0) slot.classList.add('free');
+      else if (state === 1) slot.classList.add('reserved');
+      else if (state === 2) slot.classList.add('occupied');
+      slot.id = `slot${index}`;
+      slot.textContent = index + 1;
+      let label = `Vị trí ${index + 1}, `;
+      if (state === 0) label += "trống";
+      else if (state === 1) label += "đã đặt chỗ";
+      else if (state === 2) label += "đang có xe đỗ";
+      slot.setAttribute('aria-label', label);
+      return slot;
+    }
+
+    // Load trạng thái bãi đỗ xe từ API /status
+    async function loadStatus() {
+      try {
+        const res = await fetch("/status", { cache: "no-store" });
+        if (!res.ok) throw new Error(`HTTP ${res.status} - Không thể lấy trạng thái`);
+        const data = await res.json();
+
+        document.getElementById("tongCho").innerText = data.tongCho ?? 0;
+
+        if (Array.isArray(data.slots)) {
+          const occupiedCount = data.slots.filter(s => s === 2).length;
+          const freeCount = data.slots.filter(s => s === 0).length;
+          document.getElementById("daDo").innerText = occupiedCount;
+          document.getElementById("conTrong").innerText = freeCount;
+        } else if (typeof data.slots === 'object' && data.slots !== null) {
+          // Nếu slots là object, đếm số lượng theo trạng thái
+          let occupiedCount = 0, freeCount = 0;
+          for (const key in data.slots) {
+            if (data.slots[key] === 2) occupiedCount++;
+            else if (data.slots[key] === 0) freeCount++;
+          }
+          document.getElementById("daDo").innerText = occupiedCount;
+          document.getElementById("conTrong").innerText = freeCount;
+        } else {
+          document.getElementById("daDo").innerText = '-';
+          document.getElementById("conTrong").innerText = '-';
+        }
+
+        document.getElementById("xeVao").innerText = data.xeVao ?? '-';
+
+        // Render map bãi đỗ
+        const container = document.getElementById("parking-map-container");
+        container.innerHTML = '';
+        if (data.slots && (Array.isArray(data.slots) || typeof data.slots === 'object')) {
+          const slotsArr = Array.isArray(data.slots) ? data.slots : Object.values(data.slots);
+          slotsArr.forEach((state, idx) => {
+            container.appendChild(createSlotElement(idx, state));
+          });
+        }
+
+        // Cảnh báo khí gas
+        const alertGas = data.gasAlert || false;
+        document.getElementById("card-gas-alert").innerText = alertGas ? "Cảnh báo khí gas! 🚨" : "Không";
+        const alertCard = document.getElementById("gas-alert-card");
+        const dismissBtn = document.getElementById("dismiss-gas-alert-btn");
+        dismissBtn.style.display = alertGas ? 'inline-block' : 'none';
+        if (alertGas) {
+          alertCard.style.backgroundColor = "#f8d7da";
+          alertCard.style.borderColor = "#f5c2c7";
+          alertCard.style.color = "#842029";
+        } else {
+          alertCard.style.backgroundColor = "white";
+          alertCard.style.borderColor = "#ddd";
+          alertCard.style.color = "black";
+        }
+
+      } catch (error) {
+        console.error("Lỗi loadStatus:", error);
+        alert("Không thể tải trạng thái bãi đỗ xe.");
+      }
+    }
+    async function dismissGasAlert() {
+      try {
+        const response = await fetch('/dismiss-gas-alert', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ gasAlert: false })
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+
+        const result = await response.json();
+
+        if (result.success) {
+          alert('Đã tắt cảnh báo khí gas.');
+          loadStatus(); // Cập nhật lại giao diện
+        } else {
+          alert('Tắt cảnh báo thất bại.');
+        }
+      } catch (err) {
+        console.error('Lỗi khi tắt cảnh báo:', err);
+        alert('Không thể tắt cảnh báo.');
+      }
+    }
+
+    // Load danh sách đặt chỗ từ /bookings
+    async function loadReservations() {
+      try {
+        const res = await fetch("/bookings", { cache: "no-store" });
+        if (!res.ok) throw new Error(`HTTP ${res.status} - Không thể lấy danh sách đặt chỗ`);
+        const data = await res.json();
+
+        const tbody = document.querySelector("#reservationsTable tbody");
+        tbody.innerHTML = '';
+
+        if (!Array.isArray(data) || data.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">Chưa có đặt chỗ</td></tr>';
+          return;
+        }
+
+        // Lấy tất cả provider để fill vào filter
+        const providersSet = new Set(data.map(r => r.provider));
+        fillFilterProvider(Array.from(providersSet));
+
+        const filterValue = document.getElementById('filterProvider').value;
+
+        const filtered = filterValue ? data.filter(r => r.provider === filterValue) : data;
+
+        filtered.forEach(r => {
+          const tr = document.createElement('tr');
+
+          const tdName = document.createElement('td');
+          tdName.textContent = r.name || '';
+
+          const tdPlate = document.createElement('td');
+          tdPlate.textContent = r.license || '';
+
+          const tdPosition = document.createElement('td');
+          tdPosition.textContent = r.position || '';
+
+          const tdCheckin = document.createElement('td');
+          tdCheckin.textContent = r.checkin || '';
+
+          const tdTime = document.createElement('td');
+          tdTime.textContent = r.createdAt || r.time || '';
+
+          // **Phần quan trọng: tạo tdAction và nút xóa**
+          const tdAction = document.createElement('td');
+          const btnDelete = document.createElement('button');
+          btnDelete.classList.add('delete');
+          btnDelete.textContent = 'Xóa';
+          btnDelete.setAttribute('aria-label', `Xóa đặt chỗ của ${r.name}, biển số ${r.license || ''}`);
+          btnDelete.onclick = () => deleteReservation(r.id);
+          tdAction.appendChild(btnDelete);
+          const btnConfirmPayment = document.createElement('button');
+          btnConfirmPayment.style.marginLeft = '10px';
+          btnConfirmPayment.textContent = r.paid ? 'Đã thanh toán' : 'Xác nhận thanh toán';
+          btnConfirmPayment.disabled = !!r.paid; // nếu đã thanh toán thì disable nút
+          btnConfirmPayment.onclick = () => confirmPayment(r.id);
+          tdAction.appendChild(btnConfirmPayment);
+
+          // Append các cột vào tr
+          tr.appendChild(tdName);
+          tr.appendChild(tdPlate);
+          tr.appendChild(tdPosition);
+          tr.appendChild(tdCheckin);
+          tr.appendChild(tdTime);
+          tr.appendChild(tdAction); // phải có tdAction được khai báo trước đó
+
+          tbody.appendChild(tr);
+        });
+
+
+
+        if (filtered.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">Không có đặt chỗ phù hợp</td></tr>';
+        }
+      } catch (error) {
+        console.error("Lỗi loadReservations:", error);
+        const tbody = document.querySelector("#reservationsTable tbody");
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:red;">Lỗi tải dữ liệu đặt chỗ</td></tr>';
+      }
+    }
+
+    // Bổ sung các option cho filterProvider
+    function fillFilterProvider(providers) {
+      const select = document.getElementById('filterProvider');
+      // Lưu giá trị hiện tại
+      const currentValue = select.value;
+      select.innerHTML = '<option value="">Tất cả</option>';
+      providers.forEach(p => {
+        const option = document.createElement('option');
+        option.value = p;
+        option.textContent = p;
+        select.appendChild(option);
+      });
+      // Giữ lại giá trị đã chọn nếu vẫn còn
+      if (providers.includes(currentValue)) {
+        select.value = currentValue;
+      }
+    }
+
+    // Xóa đặt chỗ
+    async function deleteReservation(id) {
+      try {
+        const response = await fetch(`/reservations/${id}`, {
+          method: 'DELETE'
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status} - Xóa không thành công`);
+        }
+
+        const res = await response.json();
+
+        if (res.success) {
+          alert('Xóa thành công');
+          // Load lại danh sách đặt chỗ sau khi xóa thành công
+          loadReservations();
+        } else {
+          alert('Xóa thất bại: ' + res.message);
+        }
+
+      } catch (err) {
+        console.error('Lỗi xóa đặt chỗ:', err);
+        alert('Lỗi khi xóa đặt chỗ');
+      }
+    }
+    async function confirmPayment(id) {
+      if (!confirm("Xác nhận khách đã thanh toán?")) return;
+
+      try {
+        const response = await fetch('/confirm-payment', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ id })  // gửi id trong body
+        });
+
+        if (!response.ok) throw new Error(`HTTP ${response.status} - Xác nhận thanh toán thất bại`);
+
+        const res = await response.json();
+        if (res.success) {
+          alert('Xác nhận thanh toán thành công');
+          loadReservations(); // load lại danh sách đặt chỗ để cập nhật trạng thái
+        } else {
+          alert('Xác nhận thanh toán thất bại: ' + res.message);
+        }
+      } catch (error) {
+        console.error('Lỗi xác nhận thanh toán:', error);
+        alert('Lỗi khi xác nhận thanh toán');
+      }
+    }
+
+
+    // Load logs gas
+    async function loadLogs() {
+      try {
+        const res = await fetch("/logs", { cache: "no-store" });
+        if (!res.ok) throw new Error(`HTTP ${res.status} - Không thể lấy logs`);
+        const data = await res.json();
+
+        const tbody = document.querySelector("#logsTable tbody");
+        tbody.innerHTML = '';
+
+        if (!Array.isArray(data) || data.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="2" style="text-align:center;">Chưa có dữ liệu</td></tr>';
+          return;
+        }
+
+        data.forEach(log => {
+          const tr = document.createElement('tr');
+          const tdTime = document.createElement('td');
+          tdTime.textContent = log.time || '';
+          const tdGas = document.createElement('td');
+          tdGas.textContent = log.gas ?? '';
+          tr.appendChild(tdTime);
+          tr.appendChild(tdGas);
+          tbody.appendChild(tr);
+        });
+      } catch (error) {
+        console.error('Lỗi loadLogs:', error);
+        const tbody = document.querySelector("#logsTable tbody");
+        tbody.innerHTML = '<tr><td colspan="2" style="text-align:center; color:red;">Lỗi tải dữ liệu logs</td></tr>';
+      }
+    }
+
+    // Refresh toàn bộ dữ liệu
+    async function refreshAll() {
+      setLoading(true);
+      await Promise.all([
+        loadStatus(),
+        loadReservations(),
+        loadLogs()
+      ]);
+      setLoading(false);
+    }
+
+    // --- Quét QR code check-in ---
+    function toggleScanner() {
+      const reader = document.getElementById('qr-reader');
+      const btnToggle = document.getElementById('toggle-scanner-btn');
+      const btnStop = document.getElementById('stop-scanner-btn');
+      if (reader.style.display === 'none' || reader.style.display === '') {
+        startScanner();
+        reader.style.display = 'block';
+        btnToggle.style.display = 'none';
+        btnStop.style.display = 'inline-block';
+        document.getElementById('scannerResult').innerText = '';
+      } else {
+        stopScanner();
+      }
+    }
+
+    function startScanner() {
+      if (html5QrcodeScanner) return; // Đã chạy rồi
+
+      const qrReader = new Html5Qrcode("qr-reader");
+      html5QrcodeScanner = qrReader;
+
+      const config = { fps: 10, qrbox: 250 };
+
+      qrReader.start(
+        { facingMode: "environment" },
+        config,
+        qrCodeMessage => {
+          document.getElementById('scannerResult').innerText = `Mã QR đã quét: ${qrCodeMessage}`;
+          // Gửi check-in lên server
+          checkinQR(qrCodeMessage);
+          stopScanner();
+        },
+        errorMessage => {
+          // có thể log nếu cần
+          // console.log(`QR error: ${errorMessage}`);
+        }
+      ).catch(err => {
+        console.error('Lỗi khởi tạo camera quét QR:', err);
+        alert('Không thể mở camera để quét QR.');
+        stopScanner();
+      });
+    }
+
+    function stopScanner() {
+      if (!html5QrcodeScanner) return;
+      html5QrcodeScanner.stop().then(() => {
+        html5QrcodeScanner.clear();
+        html5QrcodeScanner = null;
+        document.getElementById('qr-reader').style.display = 'none';
+        document.getElementById('toggle-scanner-btn').style.display = 'inline-block';
+        document.getElementById('stop-scanner-btn').style.display = 'none';
+      }).catch(err => {
+        console.error('Lỗi dừng camera:', err);
+      });
+    }
+
+    // Gửi check-in từ QR code lên backend
+    async function checkinQR(qrCode) {
+      try {
+        const res = await fetch('/checkin', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ qr: qrCode })
+        });
+        if (!res.ok) throw new Error(`HTTP ${res.status} - Check-in thất bại`);
+        const data = await res.json();
+        alert('Check-in thành công!');
+        // Reload dữ liệu sau check-in
+        refreshAll();
+      } catch (error) {
+        console.error('Lỗi checkinQR:', error);
+        alert('Check-in thất bại. Vui lòng thử lại.');
+      }
+    }
+
+    // Lắng nghe sự kiện filter thay đổi
+    document.getElementById('filterProvider').addEventListener('change', () => {
+      loadReservations();
+    });
+
+    // Load dữ liệu ban đầu khi mở trang
+    window.addEventListener('load', () => {
+      refreshAll();
+    });
+    setInterval(loadStatus, 3000);
+    loadStatus();
+  </script>
+</body>
+
+</html>

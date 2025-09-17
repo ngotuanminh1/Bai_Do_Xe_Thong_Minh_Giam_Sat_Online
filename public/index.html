@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Khách hàng - Đặt chỗ đỗ xe</title>
+  <style>
+    body {
+
+      /* Reset cơ bản */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        background: #f0f2f5;
+        padding: 30px 20px;
+        color: #333;
+        font-size: 16px;
+        line-height: 1.5;
+      }
+
+      .container {
+        max-width: 420px;
+        margin: 0 auto;
+        background: #fff;
+        padding: 30px 25px;
+        border-radius: 12px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        transition: box-shadow 0.3s ease;
+      }
+
+      .container:hover {
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+      }
+
+      header {
+        text-align: center;
+        margin-bottom: 25px;
+      }
+
+      .title {
+        font-size: 28px;
+        font-weight: 700;
+        color: #222;
+        letter-spacing: 1.2px;
+        margin-bottom: 6px;
+        user-select: none;
+      }
+
+      #parkingStatusCard {
+        display: flex;
+        flex-direction: column;
+        /* Đổi sang chế độ cột để các ô xếp dưới nhau */
+        align-items: stretch;
+        /* Đảm bảo các ô chiếm hết chiều rộng */
+        margin-top: 20px;
+      }
+
+      #parkingStatusCard h3 {
+        margin-bottom: 15px;
+        text-align: center;
+      }
+
+      #parkingStatusCard p {
+        text-align: center;
+        padding: 15px;
+        border-radius: 8px;
+        background: #fff;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        font-size: 16px;
+        font-weight: 600;
+        color: #333;
+        transition: all 0.3s ease;
+        margin-bottom: 10px;
+        /* Khoảng cách giữa các ô */
+      }
+
+      #parkingStatusCard p span {
+        font-weight: bold;
+        color: #2563eb;
+        font-size: 18px;
+      }
+
+      /* Màu sắc cho từng ô */
+      #totalSlots {
+        background-color: #e7f5ff;
+        color: #16a34a;
+        /* Xanh lá */
+      }
+
+      #occupiedSlots {
+        background-color: #fff8e1;
+        color: #f59e0b;
+        /* Màu vàng */
+      }
+
+      #freeSlots {
+        background-color: #fef2f2;
+        color: #ef4444;
+        /* Màu đỏ */
+      }
+
+      /* Hiệu ứng hover */
+      #parkingStatusCard p:hover {
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      }
+
+
+      .pill {
+        display: inline-block;
+        background: linear-gradient(90deg, #4f46e5, #3b82f6);
+        color: #fff;
+        padding: 6px 18px;
+        border-radius: 50px;
+        font-weight: 600;
+        font-size: 14px;
+        box-shadow: 0 2px 6px rgba(59, 130, 246, 0.4);
+        user-select: none;
+      }
+
+      .card {
+        margin-top: 15px;
+      }
+
+      button {
+        background: #3b82f6;
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        font-size: 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        box-shadow: 0 6px 12px rgba(59, 130, 246, 0.3);
+        transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        width: 100%;
+      }
+
+      button:hover {
+        background: #2563eb;
+        box-shadow: 0 8px 16px rgba(37, 99, 235, 0.4);
+      }
+
+      button:active {
+        background: #1d4ed8;
+        box-shadow: 0 4px 8px rgba(29, 78, 216, 0.6);
+      }
+
+      .form-container {
+        margin-top: 20px;
+      }
+
+      .form-container h3 {
+        margin-bottom: 14px;
+        color: #1e40af;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 6px;
+        font-weight: 600;
+        color: #374151;
+        user-select: none;
+      }
+
+      input,
+      select {
+        width: 100%;
+        padding: 10px 14px;
+        border: 1.8px solid #d1d5db;
+        border-radius: 8px;
+        font-size: 15px;
+        color: #1f2937;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        outline-offset: 2px;
+      }
+
+      input:focus,
+      select:focus {
+        border-color: #3b82f6;
+        box-shadow: 0 0 8px rgba(59, 130, 246, 0.4);
+      }
+
+      #accountInfo,
+      #paymentInfo,
+      #qrResult {
+        margin-top: 25px;
+        padding: 20px;
+        background: #f3f4f6;
+        border-radius: 12px;
+        box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.03);
+        font-size: 15px;
+        color: #4b5563;
+        line-height: 1.6;
+      }
+
+      #accountInfo h3,
+      #paymentInfo h3 {
+        color: #2563eb;
+        font-weight: 700;
+        margin-bottom: 12px;
+      }
+
+      #paymentInfo ul {
+        list-style: none;
+        padding-left: 0;
+        margin-bottom: 12px;
+      }
+
+      #paymentInfo ul li {
+        margin-bottom: 8px;
+      }
+
+      #paymentInfo ul li strong {
+        color: #1e3a8a;
+      }
+
+      #qrResult img {
+        margin-top: 15px;
+        max-width: 100%;
+        border-radius: 8px;
+        box-shadow: 0 4px 14px rgba(59, 130, 246, 0.2);
+        user-select: none;
+      }
+
+      /* Responsive */
+      @media (max-width: 480px) {
+        body {
+          padding: 20px 15px;
+        }
+
+        .container {
+          padding: 20px 18px;
+        }
+
+        button {
+          font-size: 15px;
+        }
+
+        .title {
+          font-size: 24px;
+        }
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <h1 class="title">🚗 Bãi Đỗ Xe</h1>
+      <span class="pill">Khách hàng</span>
+    </header>
+    <div class="card" id="parkingStatusCard">
+      <h3>🚦 Trạng thái bãi đỗ</h3>
+      <p id="totalSlots">Tổng chỗ: <span>-</span></p>
+      <p id="occupiedSlots">Đã đỗ: <span>-</span></p>
+      <p id="freeSlots">Còn trống: <span>-</span></p>
+    </div>
+
+
+
+    <div class="card reserve">
+      <button id="openFormBtn">📝 Đặt chỗ</button>
+
+      <div class="form-container" id="formContainer" style="display:none;">
+        <h3>Thông tin đặt chỗ</h3>
+        <label for="name">Tên</label>
+        <input type="text" id="name" placeholder="Nhập tên..." />
+        <label for="license">Biển số xe</label>
+        <input type="text" id="license" placeholder="Nhập biển số xe..." />
+
+        <label for="slotSelect">Chọn chỗ đỗ (slot trống)</label>
+        <select id="slotSelect">
+          <option value="">Đang tải danh sách chỗ trống...</option>
+        </select>
+
+        <button id="reserveBtn">Xác nhận</button>
+      </div>
+
+      <div id="accountInfo" style="display:none;">
+        <h3>👤 Thông tin tài khoản cá nhân</h3>
+        <p><strong>Tên:</strong> <span id="displayName"></span></p>
+        <p><strong>Biển số xe:</strong> <span id="displayLicense"></span></p>
+        <p><em>⏳ Đang chờ admin xác nhận đặt chỗ và thanh toán...</em></p>
+      </div>
+
+      <div id="paymentInfo" style="display:none;">
+        <h3>💳 Thanh toán</h3>
+        <p>Vui lòng chuyển khoản đến:</p>
+        <ul>
+          <li>Ngân hàng: <strong>ABC Bank</strong></li>
+          <li>Số tài khoản: <strong>1234567890</strong></li>
+          <li>Chủ tài khoản: <strong>Nguyễn Văn A</strong></li>
+          <li>Số tiền: <strong>50.000 VND</strong></li>
+          <li>Nội dung: <strong>Biển số xe: <span id="licenseDisplay"></span></strong></li>
+        </ul>
+        <p><em>Sau khi chuyển khoản, nhấn "Tôi đã thanh toán" để xác nhận.</em></p>
+        <button id="confirmPaymentBtn">Tôi đã thanh toán</button>
+      </div>
+
+      <div id="qrResult"></div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const openFormBtn = document.getElementById("openFormBtn");
+      const reserveBtn = document.getElementById("reserveBtn");
+      const confirmPaymentBtn = document.getElementById("confirmPaymentBtn");
+      const slotSelect = document.getElementById("slotSelect");
+      loadParkingStatus();
+      openFormBtn.addEventListener("click", () => {
+        clearAll();
+        document.getElementById("formContainer").style.display = "block";
+        loadAvailableSlots();
+      });
+
+      reserveBtn.addEventListener("click", reserve);
+      confirmPaymentBtn.addEventListener("click", confirmPayment);
+
+      async function loadAvailableSlots() {
+        slotSelect.innerHTML = '<option value="">Đang tải danh sách chỗ trống...</option>';
+        try {
+          const res = await fetch('/status');
+          const data = await res.json();
+
+          if (data.slots && Array.isArray(data.slots)) {
+            // Lọc những slot trống (giá trị 0)
+            const availableSlots = data.slots
+              .map((val, idx) => ({ val, idx }))
+              .filter(s => s.val === 0);
+
+            if (availableSlots.length === 0) {
+              slotSelect.innerHTML = '<option value="">Hết chỗ trống</option>';
+              slotSelect.disabled = true;
+            } else {
+              slotSelect.disabled = false;
+              slotSelect.innerHTML = '<option value="">-- Chọn chỗ đỗ --</option>';
+              availableSlots.forEach(slot => {
+                slotSelect.innerHTML += `<option value="${slot.idx}">Chỗ số ${slot.idx + 1}</option>`;
+              });
+            }
+          } else {
+            slotSelect.innerHTML = '<option value="">Không lấy được danh sách chỗ trống</option>';
+            slotSelect.disabled = true;
+          }
+        } catch (error) {
+          console.error("Lỗi khi tải slot:", error);
+          slotSelect.innerHTML = '<option value="">Lỗi khi tải chỗ trống</option>';
+          slotSelect.disabled = true;
+        }
+      }
+
+      async function reserve() {
+        const name = document.getElementById("name").value.trim();
+        const license = document.getElementById("license").value.trim();
+        const slotIndex = slotSelect.value;
+
+        if (!name || !license) {
+          alert("Vui lòng nhập đầy đủ thông tin");
+          return;
+        }
+        if (slotIndex === "") {
+          alert("Vui lòng chọn chỗ đỗ");
+          return;
+        }
+
+        try {
+          const res = await fetch("/pre-reserve", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name, license, slotIndex: Number(slotIndex) })
+          });
+          const data = await res.json();
+
+          if (data.success) {
+            document.getElementById("formContainer").style.display = "none";
+            document.getElementById("accountInfo").style.display = "block";
+            document.getElementById("paymentInfo").style.display = "block";
+            document.getElementById("licenseDisplay").innerText = license;
+            document.getElementById("qrResult").innerHTML = "";
+            document.getElementById("displayName").innerText = name;
+            document.getElementById("displayLicense").innerText = license;
+            window.lastLicense = license;
+            window.lastName = name;
+          } else {
+            alert(data.message || "Đặt chỗ thất bại");
+          }
+        } catch (err) {
+          console.error("Lỗi khi gửi yêu cầu đặt chỗ:", err);
+          alert("Đặt chỗ thất bại. Vui lòng thử lại sau.");
+        }
+      }
+      async function loadParkingStatus() {
+        try {
+          const res = await fetch("/status"); // API lấy trạng thái bãi đỗ
+          const data = await res.json();
+
+          if (data.tongCho) {
+            document.getElementById("totalSlots").innerHTML = `Tổng chỗ: <span>${data.tongCho}</span>`;
+          }
+
+          if (Array.isArray(data.slots)) {
+            const occupiedCount = data.slots.filter(s => s === 2).length; // Số lượng xe đã đỗ
+            const freeCount = data.slots.filter(s => s === 0).length; // Số lượng chỗ trống
+
+            document.getElementById("occupiedSlots").innerHTML = `Đã đỗ: <span>${occupiedCount}</span>`;
+            document.getElementById("freeSlots").innerHTML = `Còn trống: <span>${freeCount}</span>`;
+          }
+        } catch (error) {
+          console.error("Lỗi khi tải trạng thái bãi đỗ:", error);
+          alert("Không thể tải trạng thái bãi đỗ. Vui lòng thử lại sau.");
+        }
+      }
+
+
+      async function confirmPayment() {
+        const license = window.lastLicense;
+        if (!license) {
+          alert("Không tìm thấy biển số xe");
+          return;
+        }
+
+        try {
+          const res = await fetch(`/check-payment?license=${encodeURIComponent(license)}`);
+          const data = await res.json();
+
+          if (data.success) {
+            document.getElementById("qrResult").innerHTML = `
+          <p>${data.message}</p>
+          <img src="${data.qrUrl}" alt="QR Code" />
+        `;
+            document.getElementById("paymentInfo").style.display = "none";
+            document.getElementById("accountInfo").style.display = "none";
+            document.getElementById("formContainer").style.display = "none";
+          } else {
+            alert(data.message || "Thanh toán chưa được xác nhận. Vui lòng thử lại sau.");
+          }
+        } catch (err) {
+          console.error("Lỗi khi kiểm tra thanh toán:", err);
+          alert("Không thể kiểm tra thanh toán. Vui lòng thử lại.");
+        }
+      }
+
+      function clearAll() {
+        document.getElementById("formContainer").style.display = "none";
+        document.getElementById("accountInfo").style.display = "none";
+        document.getElementById("paymentInfo").style.display = "none";
+        document.getElementById("qrResult").innerHTML = "";
+        window.lastLicense = null;
+        window.lastName = null;
+        document.getElementById("name").value = "";
+        document.getElementById("license").value = "";
+        slotSelect.innerHTML = "";
+        slotSelect.disabled = false;
+      }
+    });
+  </script>
+</body>
+
+</html>

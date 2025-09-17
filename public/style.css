@@ -1,0 +1,167 @@
+/* ===== Reset & Base ===== */
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  margin: 40px;
+  background: #f4f6f8;
+  color: #333;
+}
+
+.container {
+  max-width: 800px;
+  margin: auto;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.title {
+  font-size: 28px;
+  color: #333;
+}
+
+.pill {
+  background: #007bff;
+  color: white;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 14px;
+}
+
+/* ===== KPI Cards ===== */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.kpi h3 {
+  margin: 0 0 10px;
+  font-size: 18px;
+  color: #444;
+}
+
+.kpi p {
+  font-size: 22px;
+  font-weight: bold;
+  color: #007bff;
+}
+
+.alert-card p {
+  color: red;
+}
+
+/* ===== Reserve Form ===== */
+.reserve button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  border: none;
+  background: #007bff;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.reserve button:hover {
+  background: #0056b3;
+}
+
+.form-container {
+  display: none;
+  margin-top: 20px;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background: #f9f9f9;
+  text-align: left;
+}
+
+.form-container label {
+  display: block;
+  margin: 8px 0 4px;
+  font-weight: bold;
+}
+
+.form-container input, 
+.form-container select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin-bottom: 10px;
+}
+
+#qrResult {
+  margin-top: 15px;
+  text-align: center;
+}
+
+/* ===== Parking Map ===== */
+.parking-map {
+  width: 400px;
+  height: 400px;
+  border: 3px solid black;
+  display: grid;
+  grid-template-rows: 2fr 1fr;
+  margin: 20px auto;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.top-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  border-bottom: 3px solid black;
+}
+
+.slot {
+  border-right: 3px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  font-weight: bold;
+  color: white;
+  cursor: default;
+  user-select: none;
+}
+
+.slot:last-child {
+  border-right: none;
+}
+
+.occupied {
+  background: red;
+}
+
+.free {
+  background: green;
+}
+
+.reserved {
+  background: orange;
+}
+
+/* Hàng dưới: đường ra vào */
+.bottom-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+}
+
+.road-left {
+  border-right: 3px solid black;
+}
