@@ -45,8 +45,8 @@
 <h2 align="center">🎬 Video Demo Hoạt Động Hệ Thống</h2>
 
 <div align="center">
-  <a href="https://www.youtube.com/watch?v=abc123XYZ" target="_blank">
-    <img src="https://img.youtube.com/vi/abc123XYZ/hqdefault.jpg" alt="Video demo" width="60%">
+  <a href="https://drive.google.com/file/d/1KoL52t0kDRoc_2z6Gr8VfuC9SaSiQBnQ/view?usp=sharing" target="_blank">
+    <img src="README/image1.png" alt="Video demo" width="60%">
   </a>
 </div>
 
