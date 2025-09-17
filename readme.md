@@ -314,6 +314,10 @@
 </table>
 </div>
 
+<div align="center">
+  <img src="README/noiday.jpg" alt="Nối dây width="100%">
+</div>
+
 <hr>
 
 <h2 align="center">🚀 Hướng dẫn cài đặt và chạy</h2>
