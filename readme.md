@@ -449,11 +449,31 @@
   &nbsp;&nbsp;&rarr; 4. Xử lý điều kiện còi cảnh báo. Nếu slot2 = 2 và slot1 ≠ 2 → đỗ sai → gửi "beep" cho Arduino (1 lần duy nhất). Nếu điều kiện không còn → tắt chế độ cảnh báo (beepSent = false)<br>
 
   &nbsp;&nbsp;&rarr; 5. Kiểm tra lệnh từ server: Gửi GET /command mỗi 3 giây. Nếu có "open": Gửi "open" về Arduino Gửi POST rỗng để reset lệnh trên server<br>
-  <strong>Flask &amp; YOLO Code (web.py):</strong><br>
-  - <em>Khởi tạo:</em> Flask server khởi chạy tại <code>http://0.0.0.0:5000/</code> và tải mô hình YOLO từ file <code>best.pt</code>.<br>
-  - <em>Xử lý ảnh:</em> Lấy ảnh từ ESP32-CAM qua URL, chạy YOLO để nhận diện đối tượng (quả cam tươi/hỏng), cập nhật ảnh annotate và kết quả phân loại.<br>
-  - <em>Giao tiếp với Arduino:</em> Khi nhận lệnh "CHECK" qua Serial, Flask sẽ chụp ảnh mới, xử lý và gửi kết quả ("ô tô", "đồ chơi" hoặc "unknown") về Arduino.<br>
-  - <em>Giao diện web:</em> Hiển thị video feed từ camera, thông tin FPS, trạng thái camera và cảnh báo.
+  <strong>&amp; Node.js & Firebase Code (server.js):</strong><br>
+
+  - <em>Khởi tạo:</em> Server Express khởi chạy tại <code>http://localhost:3000/</code> Kết nối Firebase Realtime Database bằng Admin SDK (từ file serviceAccountKey.json).<code>Khởi tạo dữ liệu mặc định cho trạng thái bãi đỗ và log khí gas nếu chưa tồn tại.</code>.<br>
+
+  - <em>Xử lý dữ liệu từ ESP32/Arduino:</em> LNhận dữ liệu gửi lên mỗi 5 giây qua route /fromarduino: Dữ liệu gồm: sự kiện (event), tổng số xe (total), trạng thái slot (slots), và nồng độ khí gas (gas). Cập nhật số xe ra/vào, trạng thái từng chỗ đỗ. Ghi log khí gas (tối đa 20 bản ghi).Nếu nồng độ khí gas > 150 ppm, kích hoạt cảnh báo Telegram. Nếu trở về mức an toàn, gửi thông báo khôi phục.<br>
+
+  - <em>Giao tiếp với Arduino qua API:</em> /command: Arduino gọi định kỳ để kiểm tra lệnh từ server. Nếu có lệnh "open" hoặc "beep" (ví dụ: xe đầu tiên đỗ sai slot), server sẽ phản hồi tương ứng. /commands/reset: Xóa/reset lệnh sau khi xử lý xong.<br>
+
+  - <em>Chức năng Đặt chỗ và Thanh toán:</em> /pre-reserve: Đặt chỗ trước (với tên, biển số và vị trí slot). /confirm-payment: Xác nhận thanh toán cho đặt chỗ. /check-payment: Kiểm tra trạng thái thanh toán và trả về mã QR nếu thành công.<br>
+
+  - <em>Check-in bằng QR Code:</em> /checkin: Nhận mã QR từ người dùng → kiểm tra hợp lệ → đánh dấu checkin, cập nhật slot chiếm dụng. Nếu xe đầu tiên đỗ vào slot số 2 → gửi lệnh "beep" đến Arduino.<br>
+
+  - <em>Quản lý trạng thái bãi đỗ:</em> /status: Trả về thông tin toàn bộ trạng thái bãi đỗ (tổng chỗ, còn trống, xe vào, cảnh báo khí gas...). /reset-xevao: Đặt lại số lượng xe đã vào.<br>
+
+  - <em>Quản lý Đặt chỗ:</em> /reservations, /bookings: Lấy danh sách đặt chỗ. DELETE /reservations/:id: Xóa đặt chỗ theo ID.<br>
+
+  - <em>Cảnh báo khí gas:</em> Tự động cảnh báo qua Telegram nếu gas vượt ngưỡng. /dismiss-gas-alert: Cho phép tắt cảnh báo khí gas thủ công.<br>
+
+  - <em>Xem lịch sử khí gas:</em> /logs: Trả về log 20 bản ghi khí gas gần nhất để hiển thị trên web/admin.<br>
+
+  - <em>Giao diện web khách hàng:</em>/đặt chỗ thanh toán sau khi admin xác nhận in mã QR tương ứng<br>
+
+  - <em>Giao diện web admin:</em>/admin: Trả về trang quản trị admin.html để giám sát bãi đỗ, đặt chỗ, cảnh báo, quét QR<br>
+
+  - <em>Thông báo Telegram (Real-time):</em>Gửi tin nhắn khi: Phát hiện nồng độ khí gas vượt ngưỡng an toàn (>150 ppm). Gas quay về trạng thái bình thường.<br>
 </p>
 
 <hr>
@@ -470,11 +490,6 @@
 <br>
 <hr>
 
-<h2 align="center">🌟 Poster ✨</h2>
-<p align="center"><strong>Poster nhóm</strong></p>
-<div align="center">
-  <img src="./REAME/poster.jpg" alt="Poster nhóm" width="100%">
-</div>
 
 <br>
 <hr>
@@ -492,7 +507,7 @@
   </thead>
   <tbody>
     <tr>
-      <td>Ngô Tuấn MinhMinh</td>
+      <td>Ngô Tuấn Minh</td>
       <td>Phát triển dự án</td>
     </tr>
   </tbody>
