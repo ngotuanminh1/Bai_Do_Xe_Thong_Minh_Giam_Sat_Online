@@ -329,11 +329,18 @@
   <strong>2.1 Cài đặt Arduino IDE:</strong><br>
   &nbsp;&nbsp;&bull; Tải Arduino IDE tại: <a href="https://www.arduino.cc/en/software" target="_blank">Arduino Software</a>.<br>
   &nbsp;&nbsp;&bull; Cài đặt Driver CH340 nếu dùng board Arduino clone.<br><br>
+
   &nbsp;&nbsp;&bull; Cài đặt Driver CP210xVCP cho ESP32<br><br>
+
   <strong>2.2 Cài đặt thư viện cho Arduino:</strong><br>
-  &nbsp;&nbsp;&bull; Mở Arduino IDE → Library Manager (Ctrl + Shift + I), tìm và cài: <code>Servo.h</code> (Điều khiển servo)
+
+  &nbsp;&nbsp;&bull; Mở Arduino IDE → Library Manager (Ctrl + Shift + I), tìm và cài: 
+  <code>Servo.h</code> (Điều khiển servo)
+  
   <code>SoftwareSerial.h</code> (Giao tiếp nối tiếp giả lập để kết nối Arduino với ESP32 qua các chân digital (10 và 11).)
+  
   <code>Wire.h</code> (Giao tiếp I2C dùng cho màn hình LCD I2C.)
+  
   <code>LiquidCrystal_I2C.h</code> (Điều khiển màn hình LCD I2C (20x4).)
 </p>
 
