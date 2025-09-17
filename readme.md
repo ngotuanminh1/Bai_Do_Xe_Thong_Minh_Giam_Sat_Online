@@ -107,10 +107,10 @@
 
 <hr>
 
-<h2 align="center">🧮 Bảng mạch</h2>
-<p align="center">
-  ⛓️‍💥 <strong>Hướng dẫn cắm dây:</strong>
-</p>
+<h2 align="center">Cắm các thiết bị</h2>
+<div align="center">
+  <img src="README/noiday.jpg" alt="Cắm các thiết bị" width="100%">
+</div>
 
 <h4 align="center">📡 Cảm biến Gas</h4>
 <div align="center">
@@ -314,9 +314,6 @@
 </table>
 </div>
 
-<div align="center">
-  <img src="README/noiday.jpg" alt="Nối dây width="100%">
-</div>
 
 <hr>
 
