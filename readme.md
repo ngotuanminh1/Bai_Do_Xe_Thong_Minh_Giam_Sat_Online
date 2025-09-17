@@ -42,6 +42,15 @@
 
 <hr>
 
+<h2 align="center">🎬 Video Demo Hoạt Động Hệ Thống</h2>
+
+<div align="center">
+  <a href="https://www.youtube.com/watch?v=abc123XYZ" target="_blank">
+    <img src="https://img.youtube.com/vi/abc123XYZ/hqdefault.jpg" alt="Video demo" width="60%">
+  </a>
+</div>
+
+
 ## Chuẩn bị 
 ### 🛠️ Phần cứng
 
