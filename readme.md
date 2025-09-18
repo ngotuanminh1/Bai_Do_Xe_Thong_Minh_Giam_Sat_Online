@@ -521,6 +521,20 @@
 
 <h2 align="center">🤝</h2>
 <p>Dự án được phát triển bởi:</p>
+<center>
+<table>
+  <thead>
+    <tr>
+      <th>Giảng viên hướng dẫn</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Thầy Nguyễn Văn Nhân</td>
+    </tr>
+  </tbody>
+</table>
+</center>
 
 <center>
 <table>
@@ -534,7 +548,7 @@
   <tbody>
     <tr>
       <td>Ngô Tuấn Minh</td>
-      <th>1571020175</th>
+      <td>1571020175</td>
       <td>Phát triển dự án</td>
     </tr>
   </tbody>
