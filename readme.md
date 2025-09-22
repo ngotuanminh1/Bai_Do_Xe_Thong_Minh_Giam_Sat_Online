@@ -370,36 +370,36 @@
   - Chạy Web Server trên PC bằng lệnh: <code>node server.js</code><br><br>
   <strong>Quy trình hoạt động:</strong><br>
   - 1. Khởi động hệ thống<br>
-    <em>Màn hình LCD hiển thị thông báo "Khởi động hệ thống".<br>
+    <em>Màn hình LCD hiển thị thông báo "Khởi động hệ thống".</em><br>
     <em>Barie ở trạng thái đóng (servo ở góc 0 độ).<br>
-    <em>Các cảm biến và LED được thiết lập trạng thái ban đầu.<br>
-  - 2. Phát hiện khí gas nguy hiểm<br>
-    <em>Cảm biến khí gas (chân A0) liên tục đo giá trị khí trong không khí"<br>
-    <em>Nếu giá trị vượt ngưỡng cao (gasThresholdHigh), hệ thống cảnh báo nguy hiểm:<br>
-    <em>Mở barie (servo xoay góc 90 độ).<br>
-    <em>Bật còi báo động.<br>
-    <em>Gửi tín hiệu cảnh báo GAS_ALERT đến ESP32.<br>
-    <em>LCD hiển thị trạng thái khí gas "Nguy hiểm" và barie "Mở (Gas)" và gửi thông báo về Telegram.<br>
-    <em>Khi giá trị khí gas giảm dưới ngưỡng thấp (gasThresholdLow), hệ thống tắt cảnh báo, đóng barie, tắt còi, và LCD hiển thị trạng thái an toàn.<br>
-  - 3. Phát hiện xe đến (Cảm biến Cam1)<br>
-    <em>Khi cảm biến Cam1 (chân 2) phát hiện xe (tín hiệu LOW), nếu bãi chưa đầy:"<br>
-    <em>Gửi tín hiệu "XE_DEN" cho ESP32 để yêu cầu quét QR.<br>
-    <em>Barie giữ trạng thái đóng, LCD hiển thị "Đợi QR".<br>
-    <em>Nếu bãi đã đầy theo dữ liệu đặt trước từ ESP32, còi sẽ báo hiệu từ chối xe.<br>
-  - 4. Mở barie cho xe hợp lệ<br>
-    <em>Khi nhận được lệnh open từ ESP32 (sau khi xác nhận QR hợp lệ), barie sẽ mở."<br>
-    <em>Xe đi vào qua cảm biến Cam2 (chân 3).<br>
-    <em>Khi xe qua Cam2 hoàn toàn, barie tự động đóng lại.<br>
-    <em>Số xe trong bãi tăng lên 1, trạng thái được gửi về ESP32 và hiển thị trên LCD.<br>
-    <em>5. Xe ra khỏi bãi<br>
-    <em>Khi phát hiện xe đi ra tại cảm biến Cam2 (và số xe > 0), barie sẽ mở."<br>
-    <em>Xe đi qua cảm biến Cam1 ra khỏi bãi, barie đóng lại.<br>
-    <em>Số xe trong bãi giảm 1, trạng thái gửi về ESP32 và cập nhật trên LCD.<br>
-  - 6. Kiểm tra vị trí đỗ xe và còi cảnh báo<br>
-    <em>Hai cảm biến đỗ xe (park1 và park2) theo dõi vị trí xe đỗ.<br>
-    <em>Nếu xe đỗ sai vị trí (ví dụ park2 có xe nhưng số xe trong bãi chưa đủ 2), còi báo động sẽ được kích hoạt để cảnh báo.<br>
-  - 7. Gửi trạng thái đỗ xe định kỳ<br>
-    <em>Mỗi 5 giây, hệ thống gửi trạng thái chỗ đỗ xe (cảm biến park1, park2) về ESP32 để theo dõi và hiển thị.<br>
+    <em>Các cảm biến và LED được thiết lập trạng thái ban đầu.</em><br>
+  - 2. Phát hiện khí gas nguy hiểm</em><br>
+    <em>Cảm biến khí gas (chân A0) liên tục đo giá trị khí trong không khí"</em><br>
+    <em>Nếu giá trị vượt ngưỡng cao (gasThresholdHigh), hệ thống cảnh báo nguy hiểm:</em><br>
+    <em>Mở barie (servo xoay góc 90 độ).</em><br>
+    <em>Bật còi báo động.</em><br>
+    <em>Gửi tín hiệu cảnh báo GAS_ALERT đến ESP32.</em><br>
+    <em>LCD hiển thị trạng thái khí gas "Nguy hiểm" và barie "Mở (Gas)" và gửi thông báo về Telegram.</em><br>
+    <em>Khi giá trị khí gas giảm dưới ngưỡng thấp (gasThresholdLow), hệ thống tắt cảnh báo, đóng barie, tắt còi, và LCD hiển thị trạng thái an toàn.</em><br>
+  - 3. Phát hiện xe đến (Cảm biến Cam1)</em><br>
+    <em>Khi cảm biến Cam1 (chân 2) phát hiện xe (tín hiệu LOW), nếu bãi chưa đầy:"</em><br>
+    <em>Gửi tín hiệu "XE_DEN" cho ESP32 để yêu cầu quét QR.</em><br>
+    <em>Barie giữ trạng thái đóng, LCD hiển thị "Đợi QR".</em><br>
+    <em>Nếu bãi đã đầy theo dữ liệu đặt trước từ ESP32, còi sẽ báo hiệu từ chối xe.</em><br>
+  - 4. Mở barie cho xe hợp lệ</em><br>
+    <em>Khi nhận được lệnh open từ ESP32 (sau khi xác nhận QR hợp lệ), barie sẽ mở."</em><br>
+    <em>Xe đi vào qua cảm biến Cam2 (chân 3).</em><br>
+    <em>Khi xe qua Cam2 hoàn toàn, barie tự động đóng lại.</em><br>
+    <em>Số xe trong bãi tăng lên 1, trạng thái được gửi về ESP32 và hiển thị trên LCD.</em><br>
+    <em>5. Xe ra khỏi bãi</em><br>
+    <em>Khi phát hiện xe đi ra tại cảm biến Cam2 (và số xe > 0), barie sẽ mở."</em><br>
+    <em>Xe đi qua cảm biến Cam1 ra khỏi bãi, barie đóng lại.</em><br>
+    <em>Số xe trong bãi giảm 1, trạng thái gửi về ESP32 và cập nhật trên LCD.</em><br>
+  - 6. Kiểm tra vị trí đỗ xe và còi cảnh báo</em><br>
+    <em>Hai cảm biến đỗ xe (park1 và park2) theo dõi vị trí xe đỗ.</em><br>
+    <em>Nếu xe đỗ sai vị trí (ví dụ park2 có xe nhưng số xe trong bãi chưa đủ 2), còi báo động sẽ được kích hoạt để cảnh báo.</em><br>
+  - 7. Gửi trạng thái đỗ xe định kỳ</em><br>
+    <em>Mỗi 5 giây, hệ thống gửi trạng thái chỗ đỗ xe (cảm biến park1, park2) về ESP32 để theo dõi và hiển thị.</em><br>
     <em>Arduino nhận kết quả và điều khiển động cơ, servo.
 </p>
 
@@ -422,38 +422,38 @@
   <strong>ESP32 (esp32.ino):</strong><br>
   - <em>Khởi tạo:</em> Khởi tạo Serial ở tốc độ 115200, Kết nối WiFi (ssid = "....."). Cấu hình UART giao tiếp với Arduino (RX: D16, TX: D17). Thiết lập server:<br>
   
-  POST /fromarduino → gửi dữ liệu. <br>
+      <em>POST /fromarduino → gửi dữ liệu. <br>
   
-  GET /command → lấy lệnh từ server. <br>
+      <em>GET /command → lấy lệnh từ server. <br>
   
-  POST /commands/reset → reset lệnh<br>
+      <em>POST /commands/reset → reset lệnh<br>
 
-  - <em>Vòng lặp chính:</em> -🔁 Nhận dữ liệu từ Arduino: Dữ liệu nhận dạng: <br>
+  -<em>3. Vòng lặp chính:</em> -🔁 Nhận dữ liệu từ Arduino: Dữ liệu nhận dạng: <br>
 
-  "GAS_ALERT" → gửi báo động gas lên server<br>
+      <em>"GAS_ALERT" → gửi báo động gas lên server<br>
 
-  "SOXE:x" hoặc "Tong xe: x" → cập nhật số xe<br>
+      <em>"SOXE:x" hoặc "Tong xe: x" → cập nhật số xe<br>
 
-  "PARKING:x,y" → cập nhật trạng thái các slot<br>
+      <em>"PARKING:x,y" → cập nhật trạng thái các slot<br>
 
   - <em>3. Gửi dữ liệu lên server</em><br>
   &nbsp;&nbsp;&rarr; Gửi định dạng JSON: <br>
 
-  {<br>
-  "event": "update",<br>
-  "total": x,<br>
-  "slots": [2, 0]<br>
-  }<br>
+        {<br>
+        "event": "update",<br>
+        "total": x,<br>
+        "slots": [2, 0]<br>
+        }<br>
 
   &nbsp;&nbsp;&rarr; ☢️ Nếu phát hiện "GAS_ALERT":<br>
   Gửi báo động lên server:<br>
 
-  {<br>
-  "event": "gas_alert",<br>
-  "total": x,<br>
-  "slots": [2, 0],<br>
-  "gas": 300<br>
-  }<br>
+        {<br>
+        "event": "gas_alert",<br>
+        "total": x,<br>
+        "slots": [2, 0],<br>
+        "gas": 300<br>
+        }<br>
 
   &nbsp;&nbsp;&rarr; 4. Xử lý điều kiện còi cảnh báo. Nếu slot2 = 2 và slot1 ≠ 2 → đỗ sai → gửi "beep" cho Arduino (1 lần duy nhất). Nếu điều kiện không còn → tắt chế độ cảnh báo (beepSent = false)<br>
 
