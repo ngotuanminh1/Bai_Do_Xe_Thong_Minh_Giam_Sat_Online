@@ -350,8 +350,6 @@
   - Kết nối board Arduino với máy tính.
   - Nạp (upload) mã nguồn lên board giữ nút boot trên ESP32.
   - Đảm bảo ESP32 xuất hiện trên cổng COM.
-  
-</div>
 
 ## II. CÀI ĐẶT PHẦN MỀM:
 
