@@ -1,47 +1,13 @@
-<h1 align="center">
-🚗 Dự Án Nhận Diện Bãi Đỗ Xe Thông Minh Có Hệ Thống Giám Sát Online
-</h1>
-<div align="center">
-  <img src="README/logoDaiNam.png" alt="DaiNam University Logo" width="250">
-</div>
-<br>
-<div align="center">
 
-[![FIT DNU](https://img.shields.io/badge/-FIT%20DNU-28a745?style=for-the-badge)](https://fitdnu.net/)
-[![DAINAM UNIVERSITY](https://img.shields.io/badge/-DAINAM%20UNIVERSITY-dc3545?style=for-the-badge)](https://dainam.edu.vn/vi)
+<h2 align="center">🎬 Video Demo Hoạt Động Hệ Thống</h2>
 
+<div align="center">
+  <a href="https://drive.google.com/file/d/1im_NQEWLpBCS8JXcxpUmRe5tx2diqXFN/view?usp=sharing" target="_blank">
+    <img src="README/image1.png" alt="Video demo" width="60%">
+  </a>
 </div>
 
-
 <hr>
-
-<h2 align="center">✨ Mô tả dự án</h2>
-<p align="justify">
-  Đây là dự án mô phỏng <strong>**BÃI ĐỖ XE THÔNG MINH CÓ GIÁM SÁT ONLINE**</strong> sử dụng **Arduino + ESP32**, kết hợp với **cảm biến hồng ngoại và cảm biến khí gas <strong>ESP32-CAM</strong>. Hệ thống hỗ trợ <strong> khách đặt chỗ trước qua QR code <strong>đồng thời có chức năng **cảnh báo khẩn cấp** khi phát hiện khí gas vượt ngưỡng.</strong>
-</p>
-
-<hr>
-
-<h2 align="center">🚀 Cấu trúc dự án</h2>
-<pre>
-📂 IOT
-├── 📁 models/                   # Thư mục chứa các file xử lý dữ liệu (models, slots, người dùng)
-├── 📁 node_modules/             # Thư viện được cài thông qua npm
-├── 📁 public/                   # Tài nguyên tĩnh phục vụ frontend
-│   ├── 🎨 admin-style.css       # Giao diện cho trang quản trị
-│   ├── 📄 admin.html            # Giao diện dành cho admin
-│   ├── 📄 index.html            # Giao diện dành cho khách hàng
-│   └── 🎨 style.css             # CSS dùng chung cho giao diện người dùng
-├── 📁 readme/                   # Thư mục chứa tài nguyên liên quan README
-│   └── 🖼️ logoDaiNam.png        # Hình ảnh logo dự án
-├── 📜 package.json              # Thông tin dự án & các dependencies
-├── 📦 package-lock.json         # Khóa version các gói npm
-├── 📄 server.js                 # File chính chạy backend Node.js + Express
-├── 🔑 serviceAccountKey.json    # Khóa Firebase Admin (bảo mật – không chia sẻ)
-├── 📘 README.md                 # Tài liệu mô tả dự án
-└── 📝 readme.md                 # Tài liệu mô tả dự án
-</pre>
-
 
 ## Chuẩn bị 
 ### 🛠️ Phần cứng
