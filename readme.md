@@ -1,4 +1,19 @@
+<h1 align="center">
+🚗 Dự Án Nhận Diện Bãi Đỗ Xe Thông Minh Có Hệ Thống Giám Sát Online
+</h1>
+<div align="center">
+  <img src="README/logoDaiNam.png" alt="DaiNam University Logo" width="250">
+</div>
+<br>
+<div align="center">
 
+[![FIT DNU](https://img.shields.io/badge/-FIT%20DNU-28a745?style=for-the-badge)](https://fitdnu.net/)
+[![DAINAM UNIVERSITY](https://img.shields.io/badge/-DAINAM%20UNIVERSITY-dc3545?style=for-the-badge)](https://dainam.edu.vn/vi)
+
+</div>
+
+
+<hr>
 
 <h2 align="center">✨ Mô tả dự án</h2>
 <p align="justify">
@@ -27,18 +42,6 @@
 └── 📝 readme.md                 # Tài liệu mô tả dự án
 </pre>
 
-
-<hr>
-
-<h2 align="center">🎬 Video Demo Hoạt Động Hệ Thống</h2>
-
-<div align="center">
-  <a href="https://drive.google.com/file/d/1im_NQEWLpBCS8JXcxpUmRe5tx2diqXFN/view?usp=sharing" target="_blank">
-    <img src="README/image1.png" alt="Video demo" width="60%">
-  </a>
-</div>
-
-<hr>
 
 ## Chuẩn bị 
 ### 🛠️ Phần cứng
