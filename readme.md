@@ -368,7 +368,7 @@
   - Mở Serial Monitor (9600 baud) trên Arduino IDE để theo dõi hoạt động.<br>
   - Mở Serial Monitor (115200 baud) trên ESP32 để theo dõi hoạt động.<br>
   - Chạy Web Server trên PC bằng lệnh: <code>node server.js</code><br><br>
-  <h2>Quy trình hoạt động:</h2>
+  <h2>I. Quy trình hoạt động:</h2>
     <ol>
         <li>
             <strong>Khởi động hệ thống</strong><br>
@@ -425,7 +425,7 @@
 <p align="justify">
   # Hệ Thống Quản Lý Bãi Đỗ Xe với Arduino và ESP32
 
-## Mô tả hệ thống
+## II. Mô tả hệ thống
 
 ### 1. Arduino Code (`arduino.ino`)
 
@@ -528,7 +528,7 @@
 
 ---
 
-## Node.js & Firebase Code (`server.js`)
+## III. Node.js & Firebase Code (`server.js`)
 
 ### 1. Khởi tạo
 
