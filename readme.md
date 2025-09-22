@@ -14,12 +14,13 @@
 
 
 <hr>
-<div>
+
 <h2 align="center">✨ Mô tả dự án</h2>
 <p align="justify">
-  Đây là dự án mô phỏng <strong>**BÃI ĐỖ XE THÔNG MINH CÓ GIÁM SÁT ONLINE**</strong> sử dụng **Arduino + ESP32**, kết hợp với **cảm biến hồng ngoại và cảm biến khí gas <strong>ESP32-CAM</strong>. Hệ thống hỗ trợ <strong> khách đặt chỗ trước qua QR code <strong>đồng thời có chức năng **cảnh báo khẩn cấp** khi phát hiện khí gas vượt ngưỡng.</strong>
+  Đây là dự án mô phỏng <strong>BÃI ĐỖ XE THÔNG MINH CÓ GIÁM SÁT ONLINE</strong> sử dụng <strong>Arduino + ESP32</strong>, kết hợp với <strong>cảm biến hồng ngoại và cảm biến khí gas ESP32-CAM</strong>. Hệ thống hỗ trợ <strong>khách đặt chỗ trước qua QR code</strong>, đồng thời có chức năng <strong>cảnh báo khẩn cấp</strong> khi phát hiện khí gas vượt ngưỡng.
 </p>
-</div>
+
+
 <hr>
 
 <h2 align="center">🚀 Cấu trúc dự án</h2>
