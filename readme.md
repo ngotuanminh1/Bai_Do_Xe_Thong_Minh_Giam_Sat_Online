@@ -371,13 +371,13 @@
   <h2>Quy trình hoạt động:</h2>
     <ol>
         <li>
-            <strong>1. Khởi động hệ thống</strong><br>
+            <strong>Khởi động hệ thống</strong><br>
             <em>Màn hình LCD hiển thị thông báo "Khởi động hệ thống".</em><br>
             <em>Barie ở trạng thái đóng (servo ở góc 0 độ).</em><br>
             <em>Các cảm biến và LED được thiết lập trạng thái ban đầu.</em><br>
         </li>
         <li>
-            <strong>2. Phát hiện khí gas nguy hiểm</strong><br>
+            <strong>Phát hiện khí gas nguy hiểm</strong><br>
             <em>Cảm biến khí gas (chân A0) liên tục đo giá trị khí trong không khí.</em><br>
             <em>Nếu giá trị vượt ngưỡng cao (gasThresholdHigh), hệ thống cảnh báo nguy hiểm:</em><br>
             <em>Mở barie (servo xoay góc 90 độ).</em><br>
@@ -387,32 +387,32 @@
             <em>Khi giá trị khí gas giảm dưới ngưỡng thấp (gasThresholdLow), hệ thống tắt cảnh báo, đóng barie, tắt còi, và LCD hiển thị trạng thái an toàn.</em><br>
         </li>
         <li>
-            <strong>3. Phát hiện xe đến (Cảm biến Cam1)</strong><br>
+            <strong>Phát hiện xe đến (Cảm biến Cam1)</strong><br>
             <em>Khi cảm biến Cam1 (chân 2) phát hiện xe (tín hiệu LOW), nếu bãi chưa đầy:</em><br>
             <em>Gửi tín hiệu "XE_DEN" cho ESP32 để yêu cầu quét QR.</em><br>
             <em>Barie giữ trạng thái đóng, LCD hiển thị "Đợi QR".</em><br>
             <em>Nếu bãi đã đầy theo dữ liệu đặt trước từ ESP32, còi sẽ báo hiệu từ chối xe.</em><br>
         </li>
         <li>
-            <strong>4. Mở barie cho xe hợp lệ</strong><br>
+            <strong>Mở barie cho xe hợp lệ</strong><br>
             <em>Khi nhận được lệnh open từ ESP32 (sau khi xác nhận QR hợp lệ), barie sẽ mở.</em><br>
             <em>Xe đi vào qua cảm biến Cam2 (chân 3).</em><br>
             <em>Khi xe qua Cam2 hoàn toàn, barie tự động đóng lại.</em><br>
             <em>Số xe trong bãi tăng lên 1, trạng thái được gửi về ESP32 và hiển thị trên LCD.</em><br>
         </li>
         <li>
-            <strong>5. Xe ra khỏi bãi</strong><br>
+            <strong>Xe ra khỏi bãi</strong><br>
             <em>Khi phát hiện xe đi ra tại cảm biến Cam2 (và số xe > 0), barie sẽ mở.</em><br>
             <em>Xe đi qua cảm biến Cam1 ra khỏi bãi, barie đóng lại.</em><br>
             <em>Số xe trong bãi giảm 1, trạng thái gửi về ESP32 và cập nhật trên LCD.</em><br>
         </li>
         <li>
-            <strong>6. Kiểm tra vị trí đỗ xe và còi cảnh báo</strong><br>
+            <strong>Kiểm tra vị trí đỗ xe và còi cảnh báo</strong><br>
             <em>Hai cảm biến đỗ xe (park1 và park2) theo dõi vị trí xe đỗ.</em><br>
             <em>Nếu xe đỗ sai vị trí (ví dụ park2 có xe nhưng số xe trong bãi chưa đủ 2), còi báo động sẽ được kích hoạt để cảnh báo.</em><br>
         </li>
         <li>
-            <strong>7. Gửi trạng thái đỗ xe định kỳ</strong><br>
+            <strong>Gửi trạng thái đỗ xe định kỳ</strong><br>
             <em>Mỗi 5 giây, hệ thống gửi trạng thái chỗ đỗ xe (cảm biến park1, park2) về ESP32 để theo dõi và hiển thị.</em><br>
             <em>Arduino nhận kết quả và điều khiển động cơ, servo.</em><br>
         </li>
