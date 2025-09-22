@@ -331,7 +331,7 @@
 
 ## I. Chuẩn bị phần cứng
 
-**1. Nạp mã Arduino:**
+1. Nạp mã Arduino:
    - Mở file Arduino bằng Arduino IDE.
    - Kết nối board Arduino với máy tính.
    - Nạp (upload) mã nguồn lên board.
