@@ -341,7 +341,7 @@
 ## I. Chuẩn bị phần Cứng
 
 - 1. **Nạp mã Arduino:**
-  - Mở file `Arduino` bằng Arduino IDE.
+  - Mở file Arduino bằng Arduino IDE.
   - Kết nối board Arduino với máy tính.
   - Nạp (upload) mã nguồn lên board.
   - Đảm bảo Arduino xuất hiện trên cổng COM.
