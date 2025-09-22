@@ -43,17 +43,6 @@
 </pre>
 
 
-<hr>
-
-<h2 align="center">🎬 Video Demo Hoạt Động Hệ Thống</h2>
-
-<div align="center">
-  <a href="https://drive.google.com/file/d/1im_NQEWLpBCS8JXcxpUmRe5tx2diqXFN/view?usp=sharing" target="_blank">
-    <img src="README/image1.png" alt="Video demo" width="60%">
-  </a>
-</div>
-
-<hr>
 
 
 <hr>
