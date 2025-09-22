@@ -337,31 +337,31 @@
 ## I. Chuẩn bị phần Cứng:
 
 1. **Nạp mã Arduino:**
-  - Mở file `Arduino` bằng Arduino IDE.
-  - Kết nối board Arduino với máy tính.
-  - Nạp (upload) mã nguồn lên board.
-  - Đảm bảo Arduino xuất hiện trên cổng COM.
+    - Mở file `Arduino` bằng Arduino IDE.
+    - Kết nối board Arduino với máy tính.
+    - Nạp (upload) mã nguồn lên board.
+    - Đảm bảo Arduino xuất hiện trên cổng COM.
 2. **Nạp mã cho ESP32 với file `Esp32`.**
-  - Mở file `ESP32` bằng Arduino IDE.
-  - Kết nối board Arduino với máy tính.
-  - Nạp (upload) mã nguồn lên board giữ nút boot trên ESP32.
-  - Đảm bảo ESP32 xuất hiện trên cổng COM.
+    - Mở file `ESP32` bằng Arduino IDE.
+    - Kết nối board Arduino với máy tính.
+    - Nạp (upload) mã nguồn lên board giữ nút boot trên ESP32.
+    - Đảm bảo ESP32 xuất hiện trên cổng COM.
 
 ## II. CÀI ĐẶT PHẦN MỀM:
 
 ### 2.1 Cài đặt Arduino IDE:
 
-- Tải Arduino IDE tại: [Arduino Software](https://www.arduino.cc/en/software)
-- Cài đặt Driver CH340 nếu dùng board Arduino clone.
-- Cài đặt Driver CP210xVCP cho ESP32.
+    - Tải Arduino IDE tại: [Arduino Software](https://www.arduino.cc/en/software)
+    - Cài đặt Driver CH340 nếu dùng board Arduino clone.
+    - Cài đặt Driver CP210xVCP cho ESP32.
 
 ### 2.2 Cài đặt thư viện cho Arduino:
 
-- Mở Arduino IDE → Library Manager (Ctrl + Shift + I), tìm và cài:
-  - `Servo.h` (Điều khiển servo)
-  - `SoftwareSerial.h` (Giao tiếp nối tiếp giả lập để kết nối Arduino với ESP32 qua các chân digital 10 và 11)
-  - `Wire.h` (Giao tiếp I2C dùng cho màn hình LCD I2C)
-  - `LiquidCrystal_I2C.h` (Điều khiển màn hình LCD I2C 20x4)
+  - Mở Arduino IDE → Library Manager (Ctrl + Shift + I), tìm và cài:
+    - `Servo.h` (Điều khiển servo)
+    - `SoftwareSerial.h` (Giao tiếp nối tiếp giả lập để kết nối Arduino với ESP32 qua các chân digital 10 và 11)
+    - `Wire.h` (Giao tiếp I2C dùng cho màn hình LCD I2C)
+    - `LiquidCrystal_I2C.h` (Điều khiển màn hình LCD I2C 20x4)
 
 
 <hr>
