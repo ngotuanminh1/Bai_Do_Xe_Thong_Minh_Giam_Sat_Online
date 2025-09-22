@@ -357,11 +357,11 @@
 
 ### 2.2 Cài đặt thư viện cho Arduino:
 
-  - Mở Arduino IDE → Library Manager (Ctrl + Shift + I), tìm và cài:
-    - `Servo.h` (Điều khiển servo)
-    - `SoftwareSerial.h` (Giao tiếp nối tiếp giả lập để kết nối Arduino với ESP32 qua các chân digital 10 và 11)
-    - `Wire.h` (Giao tiếp I2C dùng cho màn hình LCD I2C)
-    - `LiquidCrystal_I2C.h` (Điều khiển màn hình LCD I2C 20x4)
+- Mở Arduino IDE → Library Manager (Ctrl + Shift + I), tìm và cài:
+  - `Servo.h` (Điều khiển servo)
+  - `SoftwareSerial.h` (Giao tiếp nối tiếp giả lập để kết nối Arduino với ESP32 qua các chân digital 10 và 11)
+  - `Wire.h` (Giao tiếp I2C dùng cho màn hình LCD I2C)
+  - `LiquidCrystal_I2C.h` (Điều khiển màn hình LCD I2C 20x4)
 
 
 <hr>
