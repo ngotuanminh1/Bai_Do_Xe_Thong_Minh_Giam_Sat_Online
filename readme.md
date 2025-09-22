@@ -328,32 +328,31 @@
 
 <h2 align="center">🚀 Hướng dẫn cài đặt và chạy</h2>
 <p align="justify">
-  <strong>1. Chuẩn bị phần cứng:</strong><br>
-  - Nạp mã Arduino:<br>
-  &nbsp;&nbsp;&bull; Mở file <code>Arduino</code> bằng Arduino IDE.<br>
-  &nbsp;&nbsp;&bull; Kết nối board Arduino với máy tính.<br>
-  &nbsp;&nbsp;&bull; Nạp (upload) mã nguồn lên board.<br>
-  &nbsp;&nbsp;&bull; Đảm bảo Arduino xuất hiện trên cổng COM.<br>
-  - Nạp mã cho ESP32 với file <code>Esp32</code>.<br><br>
-  <strong>2. CÀI ĐẶT PHẦN MỀM:</strong><br>
-  <strong>2.1 Cài đặt Arduino IDE:</strong><br>
-  &nbsp;&nbsp;&bull; Tải Arduino IDE tại: <a href="https://www.arduino.cc/en/software" target="_blank">Arduino Software</a>.<br>
-  &nbsp;&nbsp;&bull; Cài đặt Driver CH340 nếu dùng board Arduino clone.<br><br>
+  ## 1. Chuẩn bị phần cứng:
 
-  &nbsp;&nbsp;&bull; Cài đặt Driver CP210xVCP cho ESP32<br><br>
+- Nạp mã Arduino:
+  - Mở file `Arduino` bằng Arduino IDE.
+  - Kết nối board Arduino với máy tính.
+  - Nạp (upload) mã nguồn lên board.
+  - Đảm bảo Arduino xuất hiện trên cổng COM.
+- Nạp mã cho ESP32 với file `Esp32`.
 
-  <strong>2.2 Cài đặt thư viện cho Arduino:</strong><br>
+## 2. CÀI ĐẶT PHẦN MỀM:
 
-  &nbsp;&nbsp;&bull; Mở Arduino IDE → Library Manager (Ctrl + Shift + I), tìm và cài: 
-  
-  <code>Servo.h</code> (Điều khiển servo)
-  
-  <code>SoftwareSerial.h</code> (Giao tiếp nối tiếp giả lập để kết nối Arduino với ESP32 qua các chân digital (10 và 11).)
-  
-  <code>Wire.h</code> (Giao tiếp I2C dùng cho màn hình LCD I2C.)
-  
-  <code>LiquidCrystal_I2C.h</code> (Điều khiển màn hình LCD I2C (20x4).)
-</p>
+### 2.1 Cài đặt Arduino IDE:
+
+- Tải Arduino IDE tại: [Arduino Software](https://www.arduino.cc/en/software)
+- Cài đặt Driver CH340 nếu dùng board Arduino clone.
+- Cài đặt Driver CP210xVCP cho ESP32.
+
+### 2.2 Cài đặt thư viện cho Arduino:
+
+- Mở Arduino IDE → Library Manager (Ctrl + Shift + I), tìm và cài:
+  - `Servo.h` (Điều khiển servo)
+  - `SoftwareSerial.h` (Giao tiếp nối tiếp giả lập để kết nối Arduino với ESP32 qua các chân digital 10 và 11)
+  - `Wire.h` (Giao tiếp I2C dùng cho màn hình LCD I2C)
+  - `LiquidCrystal_I2C.h` (Điều khiển màn hình LCD I2C 20x4)
+
 
 <hr>
 
