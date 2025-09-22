@@ -351,9 +351,9 @@
 
 ### 2.1 Cài đặt Arduino IDE:
 
-    - Tải Arduino IDE tại: [Arduino Software](https://www.arduino.cc/en/software)
-    - Cài đặt Driver CH340 nếu dùng board Arduino clone.
-    - Cài đặt Driver CP210xVCP cho ESP32.
+- Tải Arduino IDE tại: [Arduino Software](https://www.arduino.cc/en/software)
+- Cài đặt Driver CH340 nếu dùng board Arduino clone.
+- Cài đặt Driver CP210xVCP cho ESP32.
 
 ### 2.2 Cài đặt thư viện cho Arduino:
 
