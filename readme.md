@@ -362,6 +362,8 @@
   <img src="README/sodo.jpg" alt="Kiến trúc hệ thống" width="100%">
 </div>
 
+---
+
 <p align="justify">
  **1️⃣ Khởi động hệ thống:**
 
