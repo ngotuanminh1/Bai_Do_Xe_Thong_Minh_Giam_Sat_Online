@@ -512,35 +512,92 @@
 - Các giá trị trong `slots` đại diện trạng thái chỗ đỗ (ví dụ: số xe đỗ tại các vị trí).
 - Giá trị `"gas": 300` chỉ mang tính minh họa, thực tế lấy từ cảm biến gas.
 
-  &nbsp;&nbsp;&rarr; 4. Xử lý điều kiện còi cảnh báo. Nếu slot2 = 2 và slot1 ≠ 2 → đỗ sai → gửi "beep" cho Arduino (1 lần duy nhất). Nếu điều kiện không còn → tắt chế độ cảnh báo (beepSent = false)<br>
+  ---
 
-  &nbsp;&nbsp;&rarr; 5. Kiểm tra lệnh từ server: Gửi GET /command mỗi 3 giây. Nếu có "open": Gửi "open" về Arduino Gửi POST rỗng để reset lệnh trên server<br>
-  <strong>&amp; Node.js & Firebase Code (server.js):</strong><br>
+### 4. Xử lý điều kiện còi cảnh báo
 
-  - <em>Khởi tạo:</em> Server Express khởi chạy tại <code>http://localhost:3000/</code> Kết nối Firebase Realtime Database bằng Admin SDK (từ file serviceAccountKey.json).<code>Khởi tạo dữ liệu mặc định cho trạng thái bãi đỗ và log khí gas nếu chưa tồn tại.</code>.<br>
+- Nếu `slot2 = 2` và `slot1 ≠ 2` → được xem là đỗ sai chỗ.
+- Khi phát hiện đỗ sai, gửi lệnh `"beep"` cho Arduino **một lần duy nhất** để bật còi cảnh báo.
+- Nếu điều kiện đỗ sai không còn tồn tại, tắt chế độ cảnh báo và đặt biến `beepSent = false` để sẵn sàng phát hiện lần sau.
 
-  - <em>Xử lý dữ liệu từ ESP32/Arduino:</em> LNhận dữ liệu gửi lên mỗi 5 giây qua route /fromarduino: Dữ liệu gồm: sự kiện (event), tổng số xe (total), trạng thái slot (slots), và nồng độ khí gas (gas). Cập nhật số xe ra/vào, trạng thái từng chỗ đỗ. Ghi log khí gas (tối đa 20 bản ghi).Nếu nồng độ khí gas > 150 ppm, kích hoạt cảnh báo Telegram. Nếu trở về mức an toàn, gửi thông báo khôi phục.<br>
+### 5. Kiểm tra lệnh từ server
 
-  - <em>Giao tiếp với Arduino qua API:</em> /command: Arduino gọi định kỳ để kiểm tra lệnh từ server. Nếu có lệnh "open" hoặc "beep" (ví dụ: xe đầu tiên đỗ sai slot), server sẽ phản hồi tương ứng. /commands/reset: Xóa/reset lệnh sau khi xử lý xong.<br>
+- ESP32 gửi yêu cầu `GET /command` đến server mỗi 3 giây để lấy lệnh điều khiển.
+- Nếu server trả về lệnh `"open"` → ESP32 gửi lệnh `"open"` về Arduino để mở barie cho xe vào.
+- Sau khi xử lý lệnh, ESP32 gửi `POST` rỗng đến `POST /commands/reset` để reset trạng thái lệnh trên server.
 
-  - <em>Chức năng Đặt chỗ và Thanh toán:</em> /pre-reserve: Đặt chỗ trước (với tên, biển số và vị trí slot). /confirm-payment: Xác nhận thanh toán cho đặt chỗ. /check-payment: Kiểm tra trạng thái thanh toán và trả về mã QR nếu thành công.<br>
+---
 
-  - <em>Check-in bằng QR Code:</em> /checkin: Nhận mã QR từ người dùng → kiểm tra hợp lệ → đánh dấu checkin, cập nhật slot chiếm dụng. Nếu xe đầu tiên đỗ vào slot số 2 → gửi lệnh "beep" đến Arduino.<br>
+## Node.js & Firebase Code (`server.js`)
 
-  - <em>Quản lý trạng thái bãi đỗ:</em> /status: Trả về thông tin toàn bộ trạng thái bãi đỗ (tổng chỗ, còn trống, xe vào, cảnh báo khí gas...). /reset-xevao: Đặt lại số lượng xe đã vào.<br>
+### Khởi tạo
 
-  - <em>Quản lý Đặt chỗ:</em> /reservations, /bookings: Lấy danh sách đặt chỗ. DELETE /reservations/:id: Xóa đặt chỗ theo ID.<br>
+- Server Express chạy tại địa chỉ: `http://localhost:3000/`.
+- Kết nối Firebase Realtime Database sử dụng Admin SDK thông qua file cấu hình `serviceAccountKey.json`.
+- Khởi tạo dữ liệu mặc định cho trạng thái bãi đỗ và log khí gas nếu chưa tồn tại trong cơ sở dữ liệu.
 
-  - <em>Cảnh báo khí gas:</em> Tự động cảnh báo qua Telegram nếu gas vượt ngưỡng. /dismiss-gas-alert: Cho phép tắt cảnh báo khí gas thủ công.<br>
+### Xử lý dữ liệu từ ESP32/Arduino
 
-  - <em>Xem lịch sử khí gas:</em> /logs: Trả về log 20 bản ghi khí gas gần nhất để hiển thị trên web/admin.<br>
+- Nhận dữ liệu từ ESP32/Arduino gửi lên mỗi 5 giây qua route `POST /fromarduino`.
+- Dữ liệu nhận gồm:
+  - `event`: loại sự kiện (ví dụ: `"update"`, `"gas_alert"`).
+  - `total`: tổng số xe hiện có.
+  - `slots`: trạng thái các vị trí đỗ.
+  - `gas`: nồng độ khí gas (nếu có).
+- Cập nhật số xe ra/vào, trạng thái từng chỗ đỗ trong Firebase.
+- Ghi lại log khí gas, giới hạn tối đa 20 bản ghi gần nhất.
+- Nếu phát hiện nồng độ khí gas vượt ngưỡng 150 ppm, kích hoạt cảnh báo Telegram.
+- Khi khí gas trở lại mức an toàn, gửi thông báo khôi phục qua Telegram.
 
-  - <em>Giao diện web khách hàng:</em>/đặt chỗ thanh toán sau khi admin xác nhận in mã QR tương ứng<br>
+### Giao tiếp với Arduino qua API
 
-  - <em>Giao diện web admin:</em>/admin: Trả về trang quản trị admin.html để giám sát bãi đỗ, đặt chỗ, cảnh báo, quét QR<br>
+- `GET /command`: Arduino/ESP32 gọi định kỳ để lấy lệnh điều khiển.
+  - Server trả về lệnh `"open"`, `"beep"` hoặc rỗng.
+- `POST /commands/reset`: Reset lệnh sau khi Arduino/ESP32 đã xử lý xong.
 
-  - <em>Thông báo Telegram (Real-time):</em>Gửi tin nhắn khi: Phát hiện nồng độ khí gas vượt ngưỡng an toàn (>150 ppm). Gas quay về trạng thái bình thường.<br>
-</p>
+### Chức năng Đặt chỗ và Thanh toán
+
+- `POST /pre-reserve`: Đặt chỗ trước với thông tin tên, biển số xe, vị trí slot.
+- `POST /confirm-payment`: Xác nhận thanh toán cho đặt chỗ.
+- `GET /check-payment`: Kiểm tra trạng thái thanh toán và trả về mã QR tương ứng.
+
+### Check-in bằng QR Code
+
+- `POST /checkin`: Nhận mã QR từ người dùng.
+- Kiểm tra tính hợp lệ của mã QR, đánh dấu checkin và cập nhật trạng thái slot chiếm dụng.
+- Nếu xe đầu tiên đỗ vào slot số 2, gửi lệnh `"beep"` đến Arduino để cảnh báo đỗ sai.
+
+### Quản lý trạng thái bãi đỗ
+
+- `GET /status`: Trả về toàn bộ trạng thái bãi đỗ gồm tổng chỗ, số chỗ còn trống, số xe vào, cảnh báo khí gas, v.v.
+- `POST /reset-xevao`: Đặt lại số lượng xe hiện tại về 0 hoặc giá trị mặc định.
+
+### Quản lý Đặt chỗ
+
+- `GET /reservations` và `GET /bookings`: Lấy danh sách các đặt chỗ và đặt trước.
+- `DELETE /reservations/:id`: Xóa đặt chỗ theo ID.
+
+### Cảnh báo khí gas
+
+- Tự động gửi cảnh báo qua Telegram khi nồng độ khí gas vượt ngưỡng an toàn (>150 ppm).
+- `POST /dismiss-gas-alert`: Cho phép người dùng tắt cảnh báo khí gas thủ công.
+
+### Xem lịch sử khí gas
+
+- `GET /logs`: Trả về 20 bản ghi khí gas gần nhất để hiển thị trên trang web hoặc giao diện admin.
+
+### Giao diện web
+
+- **Khách hàng:**
+  - Cho phép đặt chỗ và thanh toán, nhận mã QR khi được admin xác nhận.
+- **Admin:**
+  - Truy cập `/admin` để quản lý toàn bộ bãi đỗ: giám sát trạng thái bãi đỗ, đặt chỗ, cảnh báo, và quét mã QR.
+
+### Thông báo Telegram (Real-time)
+
+- Gửi tin nhắn cảnh báo khi phát hiện khí gas vượt ngưỡng (>150 ppm).
+- Gửi tin nhắn khi khí gas trở lại mức an toàn.
+
 
 <hr>
 
