@@ -423,53 +423,94 @@
 
 <h2 align="center">Giải thích code</h2>
 <p align="justify">
-  <strong>Arduino Code (arduino.ino):</strong><br>
-  - <em>1. Khởi tạo:</em> Khởi tạo Serial ở tốc độ 9600, cSử dụng các thư viện: Servo.h, SoftwareSerial.h, Wire.h, LiquidCrystal_I2C.h. Cấu hình các chân kết nối: Cảm biến xe (cam1, cam2): D2, D3. Cảm biến vị trí đỗ (park1, park2): D5, D6. Cảm biến gas: A0. Còi cảnh báo: D8. LED báo trạng thái: D7 (Đỏ), D12 (Xanh). Servo điều khiển barie: D9. Giao tiếp với ESP32 qua UART mềm (SoftwareSerial(10, 11)). Hiển thị thông tin qua màn hình LCD I2C (LiquidCrystal_I2C)<br>
+  # Hệ Thống Quản Lý Bãi Đỗ Xe với Arduino và ESP32
 
-  - <em>Vòng lặp chính:</em> -📡 Nhận dữ liệu cảm biến. Đọc giá trị khí gas từ analog A0. Đọc trạng thái cảm biến cam1, cam2 để xác định xe đến/đi. Đọc trạng thái cảm biến đỗ xe park1, park2<br>
-  - 2. Xử lý dữ liệu & hành động</em><br>
-  &nbsp;&nbsp;&rarr; ☢️ Phát hiện khí gas: Nếu nồng độ gas vượt ngưỡng → mở barie, bật còi, gửi "GAS_ALERT" đến ESP32. Nếu gas giảm → đóng barie, tắt còi <br>
-  &nbsp;&nbsp;&rarr; 🔐 Nhận lệnh từ ESP32: Nếu ESP32 gửi "open" → mở barie, cho xe vào. Nếu gửi "beep" → bật còi cảnh báo đỗ sai. Nếu gửi "stopbeep" → tắt còi <br>
-  &nbsp;&nbsp;&rarr; 🚗 Xử lý xe vào (cam2). Khi xe đi qua cảm biến cam2 sau khi barie mở: Đóng barie. Tăng biến đếm soXe, gửi SOXE:x về ESP32<br>
-  &nbsp;&nbsp;&rarr; 🅿️ Xử lý xe ra (cam2 → cam1). Khi có xe đi ra (cam2 LOW, rồi qua cam1): Mở barie. Giảm soXe, gửi SOXE:x về ESP32. Đóng barie sau khi xe đi qua<br><br>
-  &nbsp;&nbsp;&rarr; 🚨 Kiểm tra đỗ sai: Nếu có xe ở park2 nhưng soXe < 2 → đỗ sai → bật còi cảnh báo. Nếu xe đỗ đúng hoặc đi khỏi → tắt còi<br><br>
-  &nbsp;&nbsp;&rarr; 📤 Gửi trạng thái định kỳ: Gửi trạng thái chỗ đỗ xe (PARKING:x,y) mỗi 5 giây về ESP32<br><br>
+## Mô tả hệ thống
 
-  <strong>ESP32 (esp32.ino):</strong><br>
-  - <em>Khởi tạo:</em> Khởi tạo Serial ở tốc độ 115200, Kết nối WiFi (ssid = "....."). Cấu hình UART giao tiếp với Arduino (RX: D16, TX: D17). Thiết lập server:<br>
+### Arduino Code (`arduino.ino`)
+
+- **Khởi tạo:**
+  - Serial tốc độ 9600.
+  - Sử dụng các thư viện: `Servo.h`, `SoftwareSerial.h`, `Wire.h`, `LiquidCrystal_I2C.h`.
+  - Cấu hình chân kết nối:
+    - Cảm biến xe: `cam1` (D2), `cam2` (D3).
+    - Cảm biến vị trí đỗ: `park1` (D5), `park2` (D6).
+    - Cảm biến khí gas: Analog A0.
+    - Còi cảnh báo: D8.
+    - LED báo trạng thái: Đỏ (D7), Xanh (D12).
+    - Servo điều khiển barie: D9.
+  - Giao tiếp với ESP32 qua UART mềm: `SoftwareSerial(10, 11)`.
+  - Hiển thị thông tin qua màn hình LCD I2C (`LiquidCrystal_I2C`).
+
+- **Vòng lặp chính:**
+  - Đọc dữ liệu cảm biến:
+    - Đọc giá trị khí gas từ analog A0.
+    - Đọc trạng thái cảm biến cam1, cam2 để xác định xe đến/đi.
+    - Đọc trạng thái cảm biến đỗ xe park1, park2.
   
-      <em>POST /fromarduino → gửi dữ liệu. <br>
-  
-      <em>GET /command → lấy lệnh từ server. <br>
-  
-      <em>POST /commands/reset → reset lệnh<br>
+- **Xử lý dữ liệu & hành động:**
+  - **Phát hiện khí gas:**
+    - Nếu nồng độ khí gas vượt ngưỡng → mở barie, bật còi, gửi `"GAS_ALERT"` đến ESP32.
+    - Nếu khí gas giảm → đóng barie, tắt còi.
+  - **Nhận lệnh từ ESP32:**
+    - `"open"` → mở barie, cho xe vào.
+    - `"beep"` → bật còi cảnh báo đỗ sai.
+    - `"stopbeep"` → tắt còi.
+  - **Xử lý xe vào (qua cam2):**
+    - Khi xe đi qua cam2 sau khi barie mở → đóng barie, tăng biến đếm `soXe`, gửi `"SOXE:x"` về ESP32.
+  - **Xử lý xe ra (qua cam2 → cam1):**
+    - Khi có xe đi ra (cam2 LOW rồi qua cam1) → mở barie, giảm `soXe`, gửi `"SOXE:x"` về ESP32, đóng barie sau khi xe đi qua.
+  - **Kiểm tra đỗ sai:**
+    - Nếu có xe ở `park2` nhưng `soXe < 2` → báo đỗ sai, bật còi cảnh báo.
+    - Nếu xe đỗ đúng hoặc đi khỏi → tắt còi.
+  - **Gửi trạng thái định kỳ:**
+    - Gửi trạng thái chỗ đỗ xe định kỳ (ví dụ `"PARKING:x,y"`) mỗi 5 giây về ESP32.
 
-  -<em>3. Vòng lặp chính:</em> -🔁 Nhận dữ liệu từ Arduino: Dữ liệu nhận dạng: <br>
+---
 
-      <em>"GAS_ALERT" → gửi báo động gas lên server<br>
+### ESP32 Code (`esp32.ino`)
 
-      <em>"SOXE:x" hoặc "Tong xe: x" → cập nhật số xe<br>
+- **Khởi tạo:**
+  - Serial tốc độ 115200.
+  - Kết nối WiFi (SSID).
+  - Cấu hình UART giao tiếp với Arduino (`RX: D16`, `TX: D17`).
+  - Thiết lập server với các endpoint:
+    - `POST /fromarduino`: nhận dữ liệu từ Arduino.
+    - `GET /command`: lấy lệnh từ server.
+    - `POST /commands/reset`: reset lệnh.
 
-      <em>"PARKING:x,y" → cập nhật trạng thái các slot<br>
+- **Vòng lặp chính:**
+  - Nhận dữ liệu từ Arduino:
+    - `"GAS_ALERT"` → gửi báo động gas lên server.
+    - `"SOXE:x"` hoặc `"Tong xe: x"` → cập nhật số xe.
+    - `"PARKING:x,y"` → cập nhật trạng thái các slot.
 
-  - <em>3. Gửi dữ liệu lên server</em><br>
-  &nbsp;&nbsp;&rarr; Gửi định dạng JSON: <br>
+- **Gửi dữ liệu lên server:**
+  - Khi cập nhật trạng thái bình thường:
+    ```json
+    {
+      "event": "update",
+      "total": x,
+      "slots": [2, 0]
+    }
+    ```
+  - Khi phát hiện báo động khí gas:
+    ```json
+    {
+      "event": "gas_alert",
+      "total": x,
+      "slots": [2, 0],
+      "gas": 300
+    }
+    ```
 
-        {<br>
-        "event": "update",<br>
-        "total": x,<br>
-        "slots": [2, 0]<br>
-        }<br>
+---
 
-  &nbsp;&nbsp;&rarr; ☢️ Nếu phát hiện "GAS_ALERT":<br>
-  Gửi báo động lên server:<br>
+## Chú ý
 
-        {<br>
-        "event": "gas_alert",<br>
-        "total": x,<br>
-        "slots": [2, 0],<br>
-        "gas": 300<br>
-        }<br>
+- Tham số `x` đại diện cho số lượng xe hiện tại.
+- Các giá trị trong `slots` đại diện trạng thái chỗ đỗ (ví dụ: số xe đỗ tại các vị trí).
+- Giá trị `"gas": 300` chỉ mang tính minh họa, thực tế lấy từ cảm biến gas.
 
   &nbsp;&nbsp;&rarr; 4. Xử lý điều kiện còi cảnh báo. Nếu slot2 = 2 và slot1 ≠ 2 → đỗ sai → gửi "beep" cho Arduino (1 lần duy nhất). Nếu điều kiện không còn → tắt chế độ cảnh báo (beepSent = false)<br>
 
