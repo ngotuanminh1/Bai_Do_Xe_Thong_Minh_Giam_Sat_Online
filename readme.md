@@ -11,12 +11,15 @@
 [![DAINAM UNIVERSITY](https://img.shields.io/badge/-DAINAM%20UNIVERSITY-dc3545?style=for-the-badge)](https://dainam.edu.vn/vi)
 
 </div>
+
+
 <hr>
 
 <h2 align="center">✨ Mô tả dự án</h2>
 <p align="justify">
   Đây là dự án mô phỏng <strong>**BÃI ĐỖ XE THÔNG MINH CÓ GIÁM SÁT ONLINE**</strong> sử dụng **Arduino + ESP32**, kết hợp với **cảm biến hồng ngoại và cảm biến khí gas <strong>ESP32-CAM</strong>. Hệ thống hỗ trợ <strong> khách đặt chỗ trước qua QR code <strong>đồng thời có chức năng **cảnh báo khẩn cấp** khi phát hiện khí gas vượt ngưỡng.</strong>
 </p>
+
 <hr>
 
 <h2 align="center">🚀 Cấu trúc dự án</h2>
@@ -50,6 +53,7 @@
   </a>
 </div>
 
+<hr>
 
 ## Chuẩn bị 
 ### 🛠️ Phần cứng
@@ -65,6 +69,11 @@
 [![Cảm Biến Khí Gas](https://img.shields.io/badge/Cảm%20biến%20khí%20Gas%20MQ--2-5C3EE8?style=for-the-badge)](#)
 [![Màn LCD](https://img.shields.io/badge/LCD%2016x2-28B463?style=for-the-badge)](#)
 [![Còi Chíp (Buzzer)](https://img.shields.io/badge/Buzzer%20Cảnh%20Báo-F39C12?style=for-the-badge)](#)
+
+
+
+<hr>
+
 
 ### 💻 Phần mềm
 
@@ -328,19 +337,22 @@
 
 <h2 align="center">🚀 Hướng dẫn cài đặt và chạy</h2>
 <p align="justify">
+  <strong>1. Chuẩn bị phần cứng:</strong><br>
+  - Nạp mã Arduino:<br>
+  &nbsp;&nbsp;&bull; Mở file <code>BTL.ino</code> bằng Arduino IDE.<br>
+  &nbsp;&nbsp;&bull; Kết nối board Arduino với máy tính.<br>
+  &nbsp;&nbsp;&bull; Nạp (upload) mã nguồn lên board.<br>
+  &nbsp;&nbsp;&bull; Đảm bảo Arduino xuất hiện trên cổng COM.<br>
+  - Nạp mã cho ESP32-CAM với file <code>CameraWebServer.ino</code>.<br><br>
+  <strong>2. CÀI ĐẶT PHẦN MỀM:</strong><br>
+  <strong>2.1 Cài đặt Arduino IDE:</strong><br>
+  &nbsp;&nbsp;&bull; Tải Arduino IDE tại: <a href="https://www.arduino.cc/en/software" target="_blank">Arduino Software</a>.<br>
+  &nbsp;&nbsp;&bull; Cài đặt Driver CH340 nếu dùng board Arduino clone.<br><br>
+  <strong>2.2 Cài đặt thư viện cho Arduino:</strong><br>
+  &nbsp;&nbsp;&bull; Mở Arduino IDE → Library Manager (Ctrl + Shift + I), tìm và cài: <code>Servo.h</code> (Điều khiển servo)
+</p>
 
-## I. Chuẩn bị phần Cứng
-
-- 1. Nạp mã Arduino:
-  - Mở file `Arduino` bằng Arduino IDE.
-  - Kết nối board Arduino với máy tính.
-  - Nạp (upload) mã nguồn lên board.
-  - Đảm bảo Arduino xuất hiện trên cổng COM.
-- 2. Nạp mã cho ESP32 với file `Esp32`.
-  - Mở file `ESP32` bằng Arduino IDE.
-  - Kết nối board Arduino với máy tính.
-  - Nạp (upload) mã nguồn lên board giữ nút boot trên ESP32.
-  - Đảm bảo ESP32 xuất hiện trên cổng COM.
+<hr>
 
 ## II. CÀI ĐẶT PHẦN MỀM:
 
