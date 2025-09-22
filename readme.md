@@ -1,3 +1,28 @@
+<h1 align="center">
+🚗 Dự Án Nhận Diện Bãi Đỗ Xe Thông Minh Có Hệ Thống Giám Sát Online
+</h1>
+<div align="center">
+  <img src="README/logoDaiNam.png" alt="DaiNam University Logo" width="250">
+</div>
+<br>
+<div align="center">
+
+[![FIT DNU](https://img.shields.io/badge/-FIT%20DNU-28a745?style=for-the-badge)](https://fitdnu.net/)
+[![DAINAM UNIVERSITY](https://img.shields.io/badge/-DAINAM%20UNIVERSITY-dc3545?style=for-the-badge)](https://dainam.edu.vn/vi)
+
+</div>
+
+
+<hr>
+
+<h2 align="center">✨ Mô tả dự án</h2>
+<p align="justify">
+  Đây là dự án mô phỏng <strong>**BÃI ĐỖ XE THÔNG MINH CÓ GIÁM SÁT ONLINE**</strong> sử dụng **Arduino + ESP32**, kết hợp với **cảm biến hồng ngoại và cảm biến khí gas <strong>ESP32-CAM</strong>. Hệ thống hỗ trợ <strong> khách đặt chỗ trước qua QR code <strong>đồng thời có chức năng **cảnh báo khẩn cấp** khi phát hiện khí gas vượt ngưỡng.</strong>
+</p>
+
+<hr>
+
+
 
 <h2 align="center">🎬 Video Demo Hoạt Động Hệ Thống</h2>
 
