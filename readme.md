@@ -372,9 +372,9 @@
     <ol>
         <li>
             <strong>Khởi động hệ thống</strong><br>
-            <em>Màn hình LCD hiển thị thông báo "Khởi động hệ thống".</em><br>
-            <em>Barie ở trạng thái đóng (servo ở góc 0 độ).</em><br>
-            <em>Các cảm biến và LED được thiết lập trạng thái ban đầu.</em><br>
+            <em>* Màn hình LCD hiển thị thông báo "Khởi động hệ thống".</em><br>
+            <em>* Barie ở trạng thái đóng (servo ở góc 0 độ).</em><br>
+            <em>* Các cảm biến và LED được thiết lập trạng thái ban đầu.</em><br>
         </li>
         <li>
             <strong>Phát hiện khí gas nguy hiểm</strong><br>
