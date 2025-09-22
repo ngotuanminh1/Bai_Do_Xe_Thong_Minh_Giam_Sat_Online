@@ -332,16 +332,16 @@
 ## I. Chuẩn bị phần cứng
 
 1. Nạp mã Arduino:
-   - Mở file Arduino bằng Arduino IDE.
-   - Kết nối board Arduino với máy tính.
-   - Nạp (upload) mã nguồn lên board.
-   - Đảm bảo Arduino xuất hiện trên cổng COM.
+    &nbsp;&nbsp;&bull;- Mở file Arduino bằng Arduino IDE.
+    &nbsp;&nbsp;&bull;- Kết nối board Arduino với máy tính.
+    &nbsp;&nbsp;&bull;- Nạp (upload) mã nguồn lên board.
+    &nbsp;&nbsp;&bull;- Đảm bảo Arduino xuất hiện trên cổng COM.
 
 2. Nạp mã cho ESP32 với file Esp32:
-   - Mở file ESP32 bằng Arduino IDE.
-   - Kết nối board Arduino với máy tính.
-   - Nạp (upload) mã nguồn lên board, giữ nút boot trên ESP32.
-   - Đảm bảo ESP32 xuất hiện trên cổng COM.
+    &nbsp;&nbsp;&bull;- Mở file ESP32 bằng Arduino IDE.
+    &nbsp;&nbsp;&bull;- Kết nối board Arduino với máy tính.
+    &nbsp;&nbsp;&bull;- Nạp (upload) mã nguồn lên board, giữ nút boot trên ESP32.
+    &nbsp;&nbsp;&bull;- Đảm bảo ESP32 xuất hiện trên cổng COM.
 
 ## II. CÀI ĐẶT PHẦN MỀM:
 
