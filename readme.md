@@ -328,11 +328,11 @@
 
 <h2 align="center">🚀 Hướng dẫn cài đặt và chạy</h2>
 <p align="justify">
+  
+  <strong>Chuẩn bị phần cứng:</strong><br>
 
-## I. Chuẩn bị phần cứng
-
-1. Nạp mã Arduino:
-    &nbsp;&nbsp;&bull;- Mở file Arduino bằng Arduino IDE.
+1. Nạp mã Arduino:<br>
+    &nbsp;&nbsp;&bull;- Mở file <code>Arduino</code> bằng Arduino IDE.<br>
     &nbsp;&nbsp;&bull;- Kết nối board Arduino với máy tính.
     &nbsp;&nbsp;&bull;- Nạp (upload) mã nguồn lên board.
     &nbsp;&nbsp;&bull;- Đảm bảo Arduino xuất hiện trên cổng COM.
@@ -342,7 +342,7 @@
     &nbsp;&nbsp;&bull;- Kết nối board Arduino với máy tính.
     &nbsp;&nbsp;&bull;- Nạp (upload) mã nguồn lên board, giữ nút boot trên ESP32.
     &nbsp;&nbsp;&bull;- Đảm bảo ESP32 xuất hiện trên cổng COM.
-
+</p>
 ## II. CÀI ĐẶT PHẦN MỀM:
 
 ### 2.1 Cài đặt Arduino IDE:
