@@ -338,7 +338,7 @@
 <h2 align="center">🚀 Hướng dẫn cài đặt và chạy</h2>
 <p align="justify">
 
-<strong>## I. Chuẩn bị phần Cứng</strong>
+## I. Chuẩn bị phần Cứng
 
 <strong>- 1. Nạp mã Arduino:</strong>
   - Mở file `Arduino` bằng Arduino IDE.
