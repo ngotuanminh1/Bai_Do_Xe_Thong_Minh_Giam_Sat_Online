@@ -343,6 +343,9 @@
     &nbsp;&nbsp;&bull;- Nạp (upload) mã nguồn lên board, giữ nút boot trên ESP32.
     &nbsp;&nbsp;&bull;- Đảm bảo ESP32 xuất hiện trên cổng COM.
 </p>
+
+<hr>
+
 ## II. CÀI ĐẶT PHẦN MỀM:
 
 ### 2.1 Cài đặt Arduino IDE:
