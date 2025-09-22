@@ -328,7 +328,8 @@
 
 <h2 align="center">🚀 Hướng dẫn cài đặt và chạy</h2>
 <p align="justify">
-  ## 1. Chuẩn bị phần cứng:
+
+## I. Chuẩn bị phần Cứng
 
 - Nạp mã Arduino:
   - Mở file `Arduino` bằng Arduino IDE.
@@ -337,7 +338,7 @@
   - Đảm bảo Arduino xuất hiện trên cổng COM.
 - Nạp mã cho ESP32 với file `Esp32`.
 
-## 2. CÀI ĐẶT PHẦN MỀM:
+## II. CÀI ĐẶT PHẦN MỀM:
 
 ### 2.1 Cài đặt Arduino IDE:
 
@@ -371,7 +372,7 @@
 
 ---
 
-## I. Quy trình hoạt động:
+## III. Quy trình hoạt động:
 
 1. **Khởi động hệ thống**
    - Màn hình LCD hiển thị thông báo "Khởi động hệ thống".
@@ -420,7 +421,7 @@
 <p align="justify">
   # Hệ Thống Quản Lý Bãi Đỗ Xe với Arduino và ESP32
 
-## II. Mô tả hệ thống
+## IV. Mô tả hệ thống
 
 ### 1. Arduino Code (`arduino.ino`)
 
@@ -523,7 +524,7 @@
 
 ---
 
-## III. Node.js & Firebase Code (`server.js`)
+## V. Node.js & Firebase Code (`server.js`)
 
 ### 1. Khởi tạo
 
